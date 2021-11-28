@@ -4,6 +4,7 @@ import User from "pages/User";
 import Seguimiento from "pages/Seguimiento";
 import Asignacion from "pages/Asignacion";
 import Misrecepciones from "pages/Misrecepciones";
+import Categoria from "pages/Categoria";
 
 const routes = [
   {
@@ -16,6 +17,7 @@ const routes = [
       { path: '/seguimiento', component: Seguimiento,meta: {requiresAuth: true,} },
       { path: '/asiganacion', component: Asignacion,meta: {requiresAuth: true,} },
       { path: '/misrecepciones', component: Misrecepciones,meta: {requiresAuth: true,} },
+      { path: '/categoria', component: Categoria,meta: {requiresAuth: true,} },
     ]
   },
 

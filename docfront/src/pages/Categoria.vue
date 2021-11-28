@@ -1,0 +1,308 @@
+<template>
+  <div class="q-pa-md">
+    <q-btn label="Nueva Categoria" color="positive" @click="alert = true" icon="add_circle" class="q-mb-xs" />
+    <q-dialog v-model="alert">
+      <q-card>
+        <q-card-section class="bg-green-14 text-white">
+          <div class="text-h6">Crear Categoria</div>
+        </q-card-section>
+        <q-card-section class="q-pt-xs">
+          <q-form
+            @submit="onSubmit"
+            @reset="onReset"
+            class="q-gutter-md"
+          >
+            <q-input
+              filled
+              v-model="dato.codigo"
+              type="text"
+              label="Codigo"
+              hint="Ingresar Codigo"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Por favor ingresa codigo']"
+            />
+            <q-input
+              filled
+              v-model="dato.nombre"
+              type="text"
+              label="Nombre"
+              hint="Ingresar nombre"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Por favor ingresa nombre']"
+            />
+            <q-input
+              filled
+              v-model="dato.sigla"
+              type="text"
+              label="Sigla"
+              hint="Ingresar sigla"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Por favor ingresa sigla']"
+            />
+
+            <div>
+              <q-btn label="Crear" type="submit" color="positive" icon="add_circle"/>
+                <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
+            </div>
+          </q-form>
+        </q-card-section>
+
+
+      </q-card>
+    </q-dialog>
+    <q-table
+      title="Categorias"
+      :rows="data"
+      :columns="columns"
+      row-key="codigo"
+    >
+      <template v-slot:body-cell-opcion="props">
+          <q-td key="opcion" :props="props">
+            <q-btn dense round flat color="green" @click="verRow(props)" icon="list"></q-btn>
+            <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
+            <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
+          </q-td>
+      </template>
+
+    </q-table>
+
+    <q-dialog v-model="dialog_mod">
+      <q-card>
+        <q-card-section class="bg-amber-14 text-white">
+          <div class="text-h6">Modificar</div>
+        </q-card-section>
+        <q-card-section class="q-pt-xs">
+          <q-form
+            @submit="onMod"
+            class="q-gutter-md"
+          >
+            <q-input
+              filled
+              v-model="dato2.codigo"
+              type="text"
+              label="Codigo"
+              hint="Ingresar Codigo"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Por favor ingresa codigo']"
+            />
+            <q-input
+              filled
+              v-model="dato2.nombre"
+              type="text"
+              label="Nombre"
+              hint="Ingresar nombre"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Por favor ingresa nombre']"
+            />
+            <q-input
+              filled
+              v-model="dato2.sigla"
+              type="text"
+              label="Sigla"
+              hint="Ingresar sigla"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Por favor ingresa sigla']"
+            />
+
+
+
+            <div>
+              <q-btn label="Modificar" type="submit" color="positive" icon="add_circle"/>
+                <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
+            </div>
+          </q-form>
+        </q-card-section>
+
+
+      </q-card>
+    </q-dialog>
+
+
+<q-dialog v-model="dialog_ver">
+      <q-card>
+        <q-card-section class="bg-amber-14 text-white">
+          <div class="text-h6">Log Cambios Cantidad</div>
+        </q-card-section>
+        <q-card-section class="q-pt-xs">
+            <q-input
+            dense
+              filled
+              v-model="dato2.nombre"
+              type="text"
+              label="Nombre"
+              readonly
+            />
+
+      <q-table
+      title="Sub Categorias"
+      :rows="sub"
+      :columns="columns2" />
+
+
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+
+    <q-dialog v-model="dialog_del" >
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="clear" color="red" text-color="white" />
+          <span class="q-ml-sm">Seguro de eliminar Registro.</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Eliminar" color="deep-orange" @click="onDel"/>
+          <q-btn flat label="Cancelar" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+  </div>
+
+</template>
+
+<script>
+import {date} from "quasar";
+
+export default {
+  data () {
+    return {
+      url:process.env.API,
+      fecha:{
+        inicio:date.formatDate(Date.now(),'YYYY-MM-DD'),
+        fin:date.formatDate(Date.now(),'YYYY-MM-DD'),
+      },
+      alert: false,
+      dialog_mod:false,
+      dialog_del:false,
+      dialog_ver:false,
+      dato:{},
+      dato2:{},
+      modprod:{},
+      columns: [
+    {
+          name: 'codigo',
+          label: 'Codigo',
+          align: 'left',
+          field: row=>row.codigo,
+          sortable: true
+        },
+        {
+          name: 'nombre',
+          label: 'Nombre',
+          align: 'left',
+          field: 'nombre',
+          sortable: true
+        },
+        { name: 'sigla', align: 'center', label: 'Sigla', field: 'sigla', sortable: true },
+        { name: 'fecha', align: 'center', label: 'Fecha', field: 'fecha' },
+        { name: 'opcion', label: 'Opcion', field:'opcion'}
+
+      ],
+      columns2: [
+        {
+          name: 'codigo',
+          required: true,
+          label: 'codigo',
+          align: 'left',
+          field: row => row.codigo,
+          // format: val => `${val}`,
+          sortable: true
+        },
+        { name: 'nombre', align: 'center', label: 'Nombre', field: 'nombre', sortable: true },
+        { name: 'sigla', align: 'center', label: 'Sigla', field: 'sigla', sortable: true },
+        { name: 'fecha', align: 'right', label: 'fecha', field: 'fecha', sortable: true },
+        { name: 'opcion', align: 'right', label: 'Opcion', field: 'opcion', sortable: true },
+
+      ],
+      data: [
+      ],
+      prod2: [
+      ]
+    }
+  },
+  created() {
+    this.misdatos();
+  },
+  methods:{
+    misdatos(){
+        this.dato.fecha=date.formatDate(Date.now(),'YYYY-MM-DD');
+      this.$q.loading.show();
+      this.$axios.get(process.env.API+'/categoria').then(res=>{
+        console.log(res.data)
+        this.data=res.data;
+       
+        this.$q.loading.hide();
+      })
+    },
+
+    editRow(categoria){
+        // console.log(categoria.row);
+        this.dato2= categoria.row;
+        this.dialog_mod=true;
+    },
+    verRow(categoria){
+        this.dato2= categoria.row;
+        // console.log(categoria.row);
+        this.sub= categoria.row.subcategorias;
+        this.dialog_ver=true;
+    },
+
+    deleteRow(categoria){
+        // console.log(categoria.row);
+        this.dato2= categoria.row;
+        this.dialog_del=true;
+    },
+
+
+    onSubmit () {
+
+      this.$q.loading.show();
+
+      this.$axios.post(process.env.API+'/categoria', this.dato).then(res=>{
+        this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Creado correctamente'
+        });
+        this.alert=false;
+        this.misdatos();
+      })
+    },
+
+    onMod(){
+        this.$q.loading.show();
+        this.$axios.put(process.env.API+'/categoria/'+this.dato2.id,this.dato2).then(res=>{
+         this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Modificado correctamente'
+        });
+        this.dialog_mod=false;
+        this.misdatos();})
+    },
+
+    onDel(){
+        this.$q.loading.show();
+        this.$axios.delete(process.env.API+'/categoria/'+this.dato2.id).then(res=>{
+         this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Eliminado correctamente'
+        });
+        this.dialog_del=false;
+        this.misdatos();})
+    },
+
+    onReset () {
+      this.dato.sigla = null;
+      this.dato.nombre = null;
+      this.dato.codigo = null;
+    }
+  }
+}
+</script>

@@ -15,6 +15,7 @@ class CategoriaController extends Controller
     public function index()
     {
         //
+        return Categoria::with('subcategorias')->get();
     }
 
     /**
@@ -36,6 +37,13 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         //
+        $categoria=new Categoria;
+        $categoria->codigo=strtoupper($request->codigo);
+        $categoria->nombre=strtoupper($request->nombre);
+        $categoria->sigla=strtoupper($request->sigla);
+        $categoria->fecha=$request->fecha;
+        $categoria->save();
+
     }
 
     /**
@@ -70,6 +78,11 @@ class CategoriaController extends Controller
     public function update(Request $request, Categoria $categoria)
     {
         //
+        $categoria=Categoria::find($request->id);
+        $categoria->codigo=strtoupper($request->codigo);
+        $categoria->nombre=strtoupper($request->nombre);
+        $categoria->sigla=strtoupper($request->sigla);
+        $categoria->save();
     }
 
     /**
@@ -78,8 +91,11 @@ class CategoriaController extends Controller
      * @param  \App\Models\Categoria  $categoria
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Categoria $categoria)
+    public function destroy( $id)
     {
         //
+        $categoria=Categoria::find($id);
+        return $categoria->delete();
+
     }
 }

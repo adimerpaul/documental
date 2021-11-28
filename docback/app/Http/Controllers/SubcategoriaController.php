@@ -15,6 +15,7 @@ class SubcategoriaController extends Controller
     public function index()
     {
         //
+        return Subcategorias::all();
     }
 
     /**
@@ -35,7 +36,13 @@ class SubcategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $sub=new Subcategoria;
+        $sub->codigo=$request->codigo;
+        $sub->nombre=$request->nombre;
+        $sub->sigla=$request->sigla;
+        $sub->fecha=$request->fecha;
+        $sub->categoria_id=$request->categoria_id;
+        $sub->save();
     }
 
     /**
@@ -70,6 +77,12 @@ class SubcategoriaController extends Controller
     public function update(Request $request, Subcategoria $subcategoria)
     {
         //
+        $sub=Subcategoria::find($request->id);
+        $sub->codigo=$request->codigo;
+        $sub->nombre=$request->nombre;
+        $sub->sigla=$request->sigla;
+        $sub->categoria_id=$request->categoria_id;
+        $sub->save();
     }
 
     /**
@@ -78,8 +91,10 @@ class SubcategoriaController extends Controller
      * @param  \App\Models\Subcategoria  $subcategoria
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subcategoria $subcategoria)
+    public function destroy($id)
     {
         //
+        $sub=Subcategoria::find($id);
+        $sub->delete();
     }
 }
