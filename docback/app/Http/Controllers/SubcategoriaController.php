@@ -81,7 +81,6 @@ class SubcategoriaController extends Controller
         $sub->codigo=$request->codigo;
         $sub->nombre=$request->nombre;
         $sub->sigla=$request->sigla;
-        $sub->categoria_id=$request->categoria_id;
         $sub->save();
     }
 

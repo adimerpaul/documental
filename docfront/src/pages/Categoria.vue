@@ -104,41 +104,77 @@
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa sigla']"
             />
 
-
-
             <div>
               <q-btn label="Modificar" type="submit" color="positive" icon="add_circle"/>
                 <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
             </div>
           </q-form>
         </q-card-section>
-
-
       </q-card>
     </q-dialog>
 
 
-<q-dialog v-model="dialog_ver">
+<q-dialog v-model="dialog_ver" full-width>
       <q-card>
         <q-card-section class="bg-amber-14 text-white">
-          <div class="text-h6">Log Cambios Cantidad</div>
+          <div class="text-h6">{{dato2.nombre}}: Sub Categorias</div>
         </q-card-section>
         <q-card-section class="q-pt-xs">
-            <q-input
-            dense
+                <q-form
+            @submit="onSub"
+            @reset="onReset"
+            class="q-gutter-md"
+          >
+          <div class="row">
+          <div class="col-3">            
+          <q-input
               filled
-              v-model="dato2.nombre"
+              dense
+              v-model="subc.codigo"
+              type="text"
+              label="Codigo"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Por favor ingresa codigo']"
+            /> </div>
+          <div class="col-3">        
+               <q-input
+              filled dense
+              v-model="subc.nombre"
               type="text"
               label="Nombre"
-              readonly
-            />
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Por favor ingresa nombre']"
+            /></div>
+          <div class="col-3">          
+            <q-input
+              filled dense
+              v-model="subc.sigla"
+              type="text"
+              label="Sigla"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Por favor ingresa sigla']"
+            /> </div>
+            <div class="col-33">
+             <q-btn label="Modificar" @click="onModsub" color="yellow" icon="edit" v-if="boolmod"/>         
+             <q-btn label="Crear" type="submit" color="positive" icon="add_circle" v-else />
+             </div>             
+            </div>
+          </q-form>
 
       <q-table
       title="Sub Categorias"
       :rows="sub"
-      :columns="columns2" />
+      :columns="columns2" 
+      dense>
 
 
+      <template v-slot:body-cell-opcion="props">
+          <q-td key="opcion" :props="props">
+            <q-btn dense round flat color="yellow" @click="subeditRow(props)" icon="edit"></q-btn>
+            <q-btn dense round flat color="red" @click="subdeleteRow(props)" icon="delete"></q-btn>
+          </q-td>
+      </template>
+      </q-table>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -177,8 +213,10 @@ export default {
       dialog_mod:false,
       dialog_del:false,
       dialog_ver:false,
+      boolmod:false,
       dato:{},
       dato2:{},
+      subc:{},
       modprod:{},
       columns: [
     {
@@ -213,7 +251,7 @@ export default {
         { name: 'nombre', align: 'center', label: 'Nombre', field: 'nombre', sortable: true },
         { name: 'sigla', align: 'center', label: 'Sigla', field: 'sigla', sortable: true },
         { name: 'fecha', align: 'right', label: 'fecha', field: 'fecha', sortable: true },
-        { name: 'opcion', align: 'right', label: 'Opcion', field: 'opcion', sortable: true },
+        { name: 'opcion', align: 'right', label: 'Opcion', field: 'opcion' },
 
       ],
       data: [
@@ -226,8 +264,31 @@ export default {
     this.misdatos();
   },
   methods:{
+        subdeleteRow (props) {
+      this.$q.dialog({
+        title: 'Eliminar',
+        message: 'Esta seguro de Eliminar?',
+        cancel: true,
+      }).onOk(() => {
+                this.$q.loading.show();
+        this.$axios.delete(process.env.API+'/subcategoria/'+props.row.id).then(res=>{
+         this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Eliminado correctamente'
+        });
+        this.dialog_ver=false;
+        this.misdatos();})
+      }).onOk(() => {
+        // console.log('>>>> second OK catcher')
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    },
     misdatos(){
-        this.dato.fecha=date.formatDate(Date.now(),'YYYY-MM-DD');
       this.$q.loading.show();
       this.$axios.get(process.env.API+'/categoria').then(res=>{
         console.log(res.data)
@@ -236,9 +297,14 @@ export default {
         this.$q.loading.hide();
       })
     },
-
+    subeditRow(props){
+      this.subc=props.row;
+      this.boolmod=true;
+    },
     editRow(categoria){
         // console.log(categoria.row);
+        this.onReset()
+        this.boolmod=false;
         this.dato2= categoria.row;
         this.dialog_mod=true;
     },
@@ -258,6 +324,7 @@ export default {
 
     onSubmit () {
 
+        this.dato.fecha=date.formatDate(Date.now(),'YYYY-MM-DD');
       this.$q.loading.show();
 
       this.$axios.post(process.env.API+'/categoria', this.dato).then(res=>{
@@ -271,6 +338,24 @@ export default {
         this.misdatos();
       })
     },
+        onSub() {
+
+        this.subc.fecha=date.formatDate(Date.now(),'YYYY-MM-DD');
+        this.subc.categoria_id=this.dato2.id;
+      this.$q.loading.show();
+
+      this.$axios.post(process.env.API+'/subcategoria', this.subc).then(res=>{
+        this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Creado correctamente'
+        });
+        this.misdatos();
+        this.dialog_ver=false;
+        this.onReset()
+      })
+    },
 
     onMod(){
         this.$q.loading.show();
@@ -282,6 +367,20 @@ export default {
           message: 'Modificado correctamente'
         });
         this.dialog_mod=false;
+        this.misdatos();})
+    },
+
+        onModsub(){
+        this.$q.loading.show();
+        this.$axios.put(process.env.API+'/subcategoria/'+this.subc.id,this.subc).then(res=>{
+         this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Modificado correctamente'
+        });
+        this.dialog_ver=false;
+        this.onReset()
         this.misdatos();})
     },
 
@@ -302,6 +401,9 @@ export default {
       this.dato.sigla = null;
       this.dato.nombre = null;
       this.dato.codigo = null;
+      this.subc.sigla=null
+      this.subc.nombre=null
+      this.subc.codigo=null
     }
   }
 }
