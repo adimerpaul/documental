@@ -162,7 +162,7 @@
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa sigla']"
             /> </div>
-            <div class="col-33">
+            <div class="col-3">
              <q-btn label="Modificar" @click="onModsub" color="yellow" icon="edit" v-if="boolmod"/>         
              <q-btn label="Crear" type="submit" color="positive" icon="add_circle" v-else />
              </div>             
@@ -326,6 +326,8 @@ export default {
         this.dialog_mod=true;
     },
     verRow(categoria){
+      this.boolmod=false;
+      this.onReset()
         this.dato2= categoria.row;
         // console.log(categoria.row);
         this.sub= categoria.row.subcategorias;
