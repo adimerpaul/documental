@@ -80,6 +80,43 @@
             </q-item-section>
           </q-item>
 
+          <q-item            
+            clickable
+            to="/categoria"
+          >
+            <q-item-section
+              avatar
+            >
+              <q-icon name="article" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Registro de Categoria</q-item-label>
+              <q-item-label caption>
+                Categoria y subcategoria
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+
+
+          <q-item            
+            clickable
+            to="/documento"
+          >
+            <q-item-section
+              avatar
+            >
+              <q-icon name="article" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Registro de documento</q-item-label>
+              <q-item-label caption>
+                Documentos / Archivos
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+
           <q-item
             v-if="$store.state.login.boolrecepcion"
             clickable
@@ -98,6 +135,7 @@
               </q-item-label>
             </q-item-section>
           </q-item>
+
           <q-item
             v-if="$store.state.login.booldesignacion"
             clickable

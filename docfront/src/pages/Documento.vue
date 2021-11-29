@@ -1,10 +1,11 @@
 <template>
   <div class="q-pa-md">
-    <q-btn label="Nueva Categoria" color="positive" @click="alert = true" icon="add_circle" class="q-mb-xs" />
+    <q-btn label="Nueva Documento" color="positive" @click="alert = true" icon="add_circle" class="q-mb-xs" />
+
     <q-dialog v-model="alert">
       <q-card>
         <q-card-section class="bg-green-14 text-white">
-          <div class="text-h6">Crear Categoria</div>
+          <div class="text-h6">Crear Documento</div>
         </q-card-section>
         <q-card-section class="q-pt-xs">
           <q-form
@@ -12,6 +13,8 @@
             @reset="onReset"
             class="q-gutter-md"
           >
+            <q-select outlined v-model="categoria" :options="cat" label="Categoria" @update:model-value="cargarsubcat"/>
+            <q-select outlined v-model="subcategoria" :options="subcat" label="SubCategoria" />
             <q-input
               filled
               v-model="dato.codigo"
@@ -235,6 +238,10 @@ export default {
       dato2:{},
       subc:{},
       modprod:{},
+      cat:[],
+      subcat:[],
+      categoria:{},
+      subcategoria:{},
       columns: [
     {
           name: 'codigo',
@@ -278,9 +285,17 @@ export default {
     }
   },
   created() {
-    this.misdatos();
+    this.categorias();
   },
   methods:{
+      cargarsubcat(){
+          this.subcat=[]
+        this.categoria.value.subcategorias.forEach(element => {
+              this.subcat.push({label:element.nombre,value:element});
+          });
+              this.subcategoria=this.subcat[0]
+
+      },
         subdeleteRow (props) {
       this.$q.dialog({
         title: 'Eliminar',
@@ -305,12 +320,16 @@ export default {
         // console.log('I am triggered on both OK and Cancel')
       })
     },
-    misdatos(){
+    categorias(){
       this.$q.loading.show();
+      this.cat=[]
       this.$axios.get(process.env.API+'/categoria').then(res=>{
         console.log(res.data)
-        this.data=res.data;
-       
+        res.data.forEach(element => {
+            this.cat.push({label:element.nombre,value:element});
+        });
+       this.categoria=this.cat[0];
+       this.cargarsubcat()
         this.$q.loading.hide();
       })
     },
