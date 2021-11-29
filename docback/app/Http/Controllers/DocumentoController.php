@@ -15,6 +15,7 @@ class DocumentoController extends Controller
     public function index()
     {
         //
+        return Documento::with('categoria')->with('subcategoria')->get();
     }
 
     /**
@@ -36,6 +37,17 @@ class DocumentoController extends Controller
     public function store(Request $request)
     {
         //
+        $doc=new Documento;
+        $doc->fondo=$request->fondo;
+        $doc->archivo=$request->archivo;
+        $doc->gestion=$request->gestion;
+        $doc->tomo=$request->tomo;
+        $doc->numtotal=$request->numtotal;
+        $doc->detalle=$request->detalle;
+        $doc->categoria_id=$request->categoria_id;
+        $doc->subcategoria_id=$request->subcategoria_id;
+        $doc->save();
+
     }
 
     /**

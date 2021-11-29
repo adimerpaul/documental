@@ -19,4 +19,16 @@ class Documento extends Model
         'categoria_id',
         'subcategoria_id'
     ];
+
+    public function subcategoria(){
+        return $this->belongsTo(subcategoria::class);
+
+    }
+
+    public function categoria(){
+        return $this->belongsTo(Categoria::class);
+
+    }
+
+
 }
