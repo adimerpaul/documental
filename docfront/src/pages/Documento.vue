@@ -28,21 +28,21 @@
             />
               </div>
               <div class="col-6">
-                                          <q-input
-              outlined
-              dense
-              v-model="dato.gestion"
-              type="number"
-              label="gestion"
-              lazy-rules
-              :rules="[ val => val>1000 && val< 9999 || 'Por favor ingrese año']"
-            />
+               <q-input
+                outlined
+                dense
+                v-model="dato.gestion"
+                type="number"
+                label="gestion"
+                lazy-rules
+                :rules="[ val => val>1000 && val< 9999 || 'Por favor ingrese año']"
+              />
               </div>
 
             </div>
             <div class="row">
               <div class="col-6">
-                
+
             <q-input
               outlined
               dense
@@ -74,8 +74,19 @@
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa Ruta']"
             />
+<!--            <q-input-->
+<!--              @update:model-value="val => { file = val[0] }"-->
+<!--              filled-->
+<!--              type="file"-->
+<!--              @change="getImage"-->
+<!--              hint="Native file"-->
+<!--            />-->
+
+            <input type="file" @change="getImage" >
             <div>
+<!--              <template v-if="categoria.value!=undefined && subcategoria.value!=undefined">-->
               <div>Nombre Archivo:{{dato.fondo}}-{{categoria.value.sigla}}-{{subcategoria.value.sigla}}-{{dato.gestion}}-{{dato.tomo}}-{{dato.numtotal}}-{{subcategoria.value.nombre}}</div>
+<!--              </template>-->
               <br>
               <q-btn label="Crear" type="submit" color="positive" icon="add_circle"/>
                 <q-btn  label="Cancelar" icon="delete" color="negative" v-close-popup />
@@ -99,6 +110,11 @@
             <q-icon name="search" />
           </template>
         </q-input>
+      </template>
+      <template v-slot:body-cell-archivo="props">
+        <q-td key="archivo" :props="props">
+          <a :href="url+'/../imagenes/'+props.row.archivo" target="_blank">{{props.row.archivo}}</a>
+        </q-td>
       </template>
       <template v-slot:body-cell-opcion="props">
           <q-td key="opcion" :props="props">
@@ -170,7 +186,7 @@
             class="q-gutter-md"
           >
           <div class="row">
-          <div class="col-3">            
+          <div class="col-3">
           <q-input
               filled
               dense
@@ -180,7 +196,7 @@
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa codigo']"
             /> </div>
-          <div class="col-3">        
+          <div class="col-3">
                <q-input
               filled dense
               v-model="subc.nombre"
@@ -189,7 +205,7 @@
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa nombre']"
             /></div>
-          <div class="col-3">          
+          <div class="col-3">
             <q-input
               filled dense
               v-model="subc.sigla"
@@ -199,16 +215,16 @@
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa sigla']"
             /> </div>
             <div class="col-33">
-             <q-btn label="Modificar" @click="onModsub" color="yellow" icon="edit" v-if="boolmod"/>         
+             <q-btn label="Modificar" @click="onModsub" color="yellow" icon="edit" v-if="boolmod"/>
              <q-btn label="Crear" type="submit" color="positive" icon="add_circle" v-else />
-             </div>             
+             </div>
             </div>
           </q-form>
 
       <q-table
       title="Sub Categorias"
       :rows="sub"
-      :columns="columns2" 
+      :columns="columns2"
       :filter="filter2"
       dense>
       <template v-slot:top-right>
@@ -255,6 +271,8 @@ import {date} from "quasar";
 export default {
   data () {
     return {
+      url:process.env.API,
+      imagen : null,
       fecha:{
         inicio:date.formatDate(Date.now(),'YYYY-MM-DD'),
         fin:date.formatDate(Date.now(),'YYYY-MM-DD'),
@@ -266,7 +284,7 @@ export default {
       boolmod:false,
       filter:'',
       filter2:'',
-      dato:{},
+      dato:{fondo:'APMT',gestion:date.formatDate(Date.now(),'YYYY'),tomo:'1',numtotal:'1'},
       dato2:{},
       subc:{},
       modprod:{},
@@ -323,24 +341,36 @@ export default {
   },
   created() {
     this.categorias();
+    // this.$q.loading.show();
     this.misdatos();
+
   },
   methods:{
+    getImage(event){
+      //Asignamos la imagen a  nuestra data
+      // console.log(event.target)
+      this.imagen = event.target.files[0];
+    },
     misdatos(){
       this.$q.loading.show();
         this.$axios.get(process.env.API+'/documento').then(res=>{
            this.data=res.data;
+          this.$q.loading.hide();
         })
-        this.$q.loading.hide();
+
 
     },
       cargarsubcat(){
-          this.subcat=[]
+        this.subcat=[]
+
+        if (this.categoria.value.subcategorias.length>0){
         this.categoria.value.subcategorias.forEach(element => {
               this.subcat.push({label:element.nombre,value:element});
           });
               this.subcategoria=this.subcat[0]
-
+        }else{
+          // this.subcategoria={}
+        }
       },
         subdeleteRow (props) {
       this.$q.dialog({
@@ -370,13 +400,13 @@ export default {
       this.$q.loading.show();
       this.cat=[]
       this.$axios.get(process.env.API+'/categoria').then(res=>{
-        console.log(res.data)
+        // console.log(res.data)
         res.data.forEach(element => {
             this.cat.push({label:element.nombre,value:element});
         });
        this.categoria=this.cat[0];
        this.cargarsubcat()
-        this.$q.loading.hide();
+        // this.$q.loading.hide();
       })
     },
     subeditRow(props){
@@ -405,13 +435,27 @@ export default {
 
 
     onSubmit () {
+
       this.dato.archivo=this.dato.fondo+'-'+this.categoria.value.sigla+'-'+this.subcategoria.value.sigla+'-'+this.dato.gestion+'-'+this.dato.tomo+'-'+this.dato.numtotal+'-'+this.subcategoria.value.nombre;
       this.dato.categoria_id=this.categoria.value.id;
       this.dato.subcategoria_id=this.subcategoria.value.id;
       this.dato.fecha=date.formatDate(Date.now(),'YYYY-MM-DD');
       this.$q.loading.show();
+      var data = new  FormData();
+      data.append('imagen', this.imagen);
+      data.append('archivo', this.dato.archivo);
+      data.append('categoria_id', this.dato.categoria_id);
+      data.append('subcategoria_id', this.dato.subcategoria_id);
+      data.append('fecha', this.dato.fecha);
+      data.append('fondo', this.dato.fondo);
+      data.append('gestion', this.dato.gestion);
+      data.append('tomo', this.dato.tomo);
+      data.append('numtotal', this.dato.numtotal);
+      data.append('detalle', this.dato.detalle);
 
-      this.$axios.post(process.env.API+'/documento', this.dato).then(res=>{
+
+
+      this.$axios.post(process.env.API+'/documento', data).then(res=>{
         this.$q.notify({
           color: 'green-4',
           textColor: 'white',
@@ -458,6 +502,6 @@ export default {
       this.subc.codigo=null
     }
   },
-  
+
 }
 </script>

@@ -37,9 +37,21 @@ class DocumentoController extends Controller
     public function store(Request $request)
     {
         //
+
+
+        $nombreArchivo='';
+        if ($request->hasFile('imagen')) {
+//            return "si";
+            $file=$request->file('imagen');
+            $nombreArchivo = $request->archivo.".".$file->getClientOriginalExtension();
+//        return $nombreArchivo;
+            $file->move(\public_path('imagenes'), $nombreArchivo);
+//            return $nombreArchivo;
+//            $request->imagen=$nombreArchivo;
+        }
         $doc=new Documento;
         $doc->fondo=$request->fondo;
-        $doc->archivo=$request->archivo;
+        $doc->archivo=$nombreArchivo;
         $doc->gestion=$request->gestion;
         $doc->tomo=$request->tomo;
         $doc->numtotal=$request->numtotal;
@@ -47,6 +59,7 @@ class DocumentoController extends Controller
         $doc->categoria_id=$request->categoria_id;
         $doc->subcategoria_id=$request->subcategoria_id;
         $doc->save();
+
 
     }
 
