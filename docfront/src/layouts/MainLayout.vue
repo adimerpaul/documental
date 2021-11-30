@@ -117,48 +117,11 @@
             </q-item-section>
           </q-item>
 
-          <q-item
-            v-if="$store.state.login.boolrecepcion"
-            clickable
-            to="/recepcion"
-          >
-            <q-item-section
-              avatar
-            >
-              <q-icon name="article" />
-            </q-item-section>
-
-            <q-item-section>
-              <q-item-label>Registro de correspondencia</q-item-label>
-              <q-item-label caption>
-                Recepciones de correspondencia
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-item
-            v-if="$store.state.login.booldesignacion"
-            clickable
-            to="/asiganacion"
-          >
-            <q-item-section
-              avatar
-            >
-              <q-icon name="code" />
-            </q-item-section>
-
-            <q-item-section>
-              <q-item-label>Mis asignaciones</q-item-label>
-              <q-item-label caption>
-                Mis asignaciones
-              </q-item-label>
-            </q-item-section>
-          </q-item>
 
           <q-item
             v-if="$store.state.login.boolseguimiento"
             clickable
-            to="/seguimiento"
+            to="/"
           >
             <q-item-section
               avatar
@@ -167,9 +130,9 @@
             </q-item-section>
 
             <q-item-section>
-              <q-item-label>Seguimiento</q-item-label>
+              <q-item-label>Prestamo</q-item-label>
               <q-item-label caption>
-                Seguimiento de archivos
+                Prestamo de archivos
               </q-item-label>
             </q-item-section>
           </q-item>

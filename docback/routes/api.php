@@ -46,6 +46,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::resource('/subcategoria',\App\Http\Controllers\SubcategoriaController::class);
     Route::resource('/documento',\App\Http\Controllers\DocumentoController::class);
     Route::post('/upload',[\App\Http\Controllers\MailController::class,'upload']);
+    Route::post('/uparchivo',[\App\Http\Controllers\DocumentoController::class,'uparchivo']);
 });
 Route::get('/mail/{mail}/{user}',[\App\Http\Controllers\MailController::class,'show']);
 

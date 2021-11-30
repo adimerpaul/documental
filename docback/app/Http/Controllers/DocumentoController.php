@@ -69,6 +69,22 @@ class DocumentoController extends Controller
      * @param  \App\Models\Documento  $documento
      * @return \Illuminate\Http\Response
      */
+
+     public function uparchivo(Request $request){
+        $nombreArchivo='';
+        if ($request->hasFile('imagen')) {
+//            return "si";
+            $file=$request->file('imagen');
+            $nombreArchivo = $request->archivo.".".$file->getClientOriginalExtension();
+//        return $nombreArchivo;
+            $file->move(\public_path('imagenes'), $nombreArchivo);
+//            return $nombreArchivo;
+//            $request->imagen=$nombreArchivo;
+        }
+        $doc=Documento::find($request->id);
+        $doc->archivo=$nombreArchivo;
+        $doc->save();
+     }
     public function show(Documento $documento)
     {
         //
@@ -94,6 +110,16 @@ class DocumentoController extends Controller
      */
     public function update(Request $request, Documento $documento)
     {
+        
+        $doc=Documento::find($request->id);
+        $doc->fondo=$request->fondo;
+        $doc->gestion=$request->gestion;
+        $doc->tomo=$request->tomo;
+        $doc->numtotal=$request->numtotal;
+        $doc->detalle=$request->detalle;
+        $doc->categoria_id=$request->categoria_id;
+        $doc->subcategoria_id=$request->subcategoria_id;
+        $doc->save();
         //
     }
 
@@ -103,8 +129,11 @@ class DocumentoController extends Controller
      * @param  \App\Models\Documento  $documento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Documento $documento)
+    public function destroy( $id)
     {
         //
+        $doc=Documento::find($id);
+        $doc->delete();
+
     }
 }
