@@ -21,7 +21,7 @@ class Documento extends Model
     ];
 
     public function subcategoria(){
-        return $this->belongsTo(subcategoria::class);
+        return $this->belongsTo(Subcategoria::class);
 
     }
 
