@@ -6,6 +6,7 @@ import Asignacion from "pages/Asignacion";
 import Misrecepciones from "pages/Misrecepciones";
 import Categoria from "pages/Categoria";
 import Documento from "pages/Documento";
+import Reportegraf from "pages/Reportegraf";
 
 const routes = [
   {
@@ -20,6 +21,7 @@ const routes = [
       { path: '/misrecepciones', component: Misrecepciones,meta: {requiresAuth: true,} },
       { path: '/categoria', component: Categoria,meta: {requiresAuth: true,} },
       { path: '/documento', component: Documento,meta: {requiresAuth: true,} },
+      { path: '/reportegraf', component: Reportegraf,meta: {requiresAuth: true,} },
     ]
   },
 

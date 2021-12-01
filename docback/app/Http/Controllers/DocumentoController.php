@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Documento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class DocumentoController extends Controller
 {
@@ -56,6 +58,7 @@ class DocumentoController extends Controller
         $doc->tomo=$request->tomo;
         $doc->numtotal=$request->numtotal;
         $doc->detalle=$request->detalle;
+        $doc->fecha=date('Y-m-d');
         $doc->categoria_id=$request->categoria_id;
         $doc->subcategoria_id=$request->subcategoria_id;
         $doc->save();
@@ -135,5 +138,9 @@ class DocumentoController extends Controller
         $doc=Documento::find($id);
         $doc->delete();
 
+    }
+
+    public function consulta(Request $request){
+        return DB::SELECT('SELECT fecha,count(*) as cantidad from documentos where fecha>= "'.$request->fecha1.'" and fecha<="'.$request->fecha2.'" group by fecha');
     }
 }

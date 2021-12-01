@@ -22,6 +22,7 @@ class CreateDocumentosTable extends Migration
             $table->string("numtotal");
             $table->string("detalle");
             $table->string("estado")->default("ACTIVO");
+            $table->date('fecha');
 //            $table->unsignedBigInteger('unid_id');
 //            $table->foreign('unid_id')->references('id')->on('unids');
             $table->unsignedBigInteger('categoria_id');

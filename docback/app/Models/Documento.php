@@ -16,6 +16,7 @@ class Documento extends Model
         'numtotal',
         'detalle',
         'estado',
+        'fecha',
         'categoria_id',
         'subcategoria_id'
     ];

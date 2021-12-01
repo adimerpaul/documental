@@ -40,7 +40,7 @@ class SubcategoriaController extends Controller
         $sub->codigo=$request->codigo;
         $sub->nombre=$request->nombre;
         $sub->sigla=$request->sigla;
-        $sub->fecha=$request->fecha;
+        $sub->fecha=date('Y-m-d');
         $sub->categoria_id=$request->categoria_id;
         $sub->save();
     }

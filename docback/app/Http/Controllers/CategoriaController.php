@@ -41,7 +41,7 @@ class CategoriaController extends Controller
         $categoria->codigo=strtoupper($request->codigo);
         $categoria->nombre=strtoupper($request->nombre);
         $categoria->sigla=strtoupper($request->sigla);
-        $categoria->fecha=$request->fecha;
+        $categoria->fecha=date('Y-m-d');
         $categoria->save();
 
     }
