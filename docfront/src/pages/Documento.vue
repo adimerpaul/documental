@@ -103,6 +103,7 @@
       :columns="columns"
       :filter="filter"
       row-key="name"
+      :rows-per-page-options="[50,100,200,0]"
     >
           <template v-slot:top-right>
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Buscar">
@@ -118,9 +119,12 @@
       </template>
       <template v-slot:body-cell-opcion="props">
           <q-td key="opcion" :props="props">
-            <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
-            <q-btn dense round flat color="accent" @click="archRow(props)" icon="upload_file"></q-btn>
-            <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
+            <q-btn-group>
+              <q-btn dense round flat color="yellow" @click="editRow(props)" icon="edit"></q-btn>
+              <q-btn dense round flat color="accent" @click="archRow(props)" icon="upload_file"></q-btn>
+              <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete"></q-btn>
+              <q-btn dense round flat color="teal" @click="print(props)" icon="print"></q-btn>
+            </q-btn-group>
           </q-td>
       </template>
 
@@ -278,25 +282,13 @@ export default {
       categoria:{},
       subcategoria:{},
       columns: [
-    {
-          name: 'fondo',
-          label: 'Fondo',
-          align: 'left',
-          field: row=>row.fondo,
-          sortable: true
-        },
-        {
-          name: 'archivo',
-          label: 'Archivo',
-          align: 'left',
-          field: 'archivo',
-          sortable: true
-        },
-        { name: 'gestion', align: 'center', label: 'Gestion', field: 'gestion', sortable: true },
-        { name: 'tomo', align: 'center', label: 'tomo', field: 'tomo', sortable: true },
-        { name: 'numtotal', align: 'center', label: 'numtotal', field: 'numtotal', sortable: true },
-        { name: 'detalle', align: 'center', label: 'detalle', field: 'detalle', sortable: true },
-        { name: 'estado', align: 'center', label: 'estado', field: 'estado', sortable: true },
+        // {name: 'fondo', label: 'Fondo', align: 'left', field: row=>row.fondo, sortable: true},
+        {name: 'archivo', label: 'Archivo', align: 'left', field: 'archivo', sortable: true},
+        // { name: 'gestion', align: 'center', label: 'Gestion', field: 'gestion', sortable: true },
+        // { name: 'tomo', align: 'center', label: 'tomo', field: 'tomo', sortable: true },
+        // { name: 'numtotal', align: 'center', label: 'numtotal', field: 'numtotal', sortable: true },
+        // { name: 'detalle', align: 'center', label: 'detalle', field: 'detalle', sortable: true },
+        // { name: 'estado', align: 'center', label: 'estado', field: 'estado', sortable: true },
         { name: 'categoria', align: 'center', label: 'categoria', field: row=>row.categoria.nombre, sortable: true },
         { name: 'subcategoria', align: 'center', label: 'subcategoria', field: row=>row.subcategoria.nombre, sortable: true },
         { name: 'opcion', label: 'Opcion', field:'opcion'}
@@ -357,7 +349,7 @@ export default {
           // this.subcategoria={}
         }
       },
-        
+
     categorias(){
       this.$q.loading.show();
       this.cat=[]
@@ -397,8 +389,9 @@ export default {
         this.dato2= categoria.row;
         this.dialog_del=true;
     },
-
-
+    print(){
+      
+    },
     onSubmit () {
 
       this.dato.archivo=this.dato.fondo+'-'+this.categoria.value.sigla+'-'+this.subcategoria.value.sigla+'-'+this.dato.gestion+'-'+this.dato.tomo+'-'+this.dato.numtotal+'-'+this.dato.detalle;

@@ -19,6 +19,7 @@ class DocumentoSeeder extends Seeder
             "archivo"=>"1.pdf",
             "gestion"=>"2021",
             "tomo"=>"1",
+            "fecha"=>now(),
             "numtotal"=>"10",
             "detalle"=>"CONVENIOS",
             'categoria_id'=>"1",

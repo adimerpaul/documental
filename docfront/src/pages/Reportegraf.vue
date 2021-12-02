@@ -34,12 +34,14 @@ export default defineComponent({
         data: [1,1,1,1,1]
       }],
       chartOptions: {
+
         chart: {
+
           type: 'bar',
           height: 350
         },
         dataLabels: {
-          enabled: false
+          enabled: true
         },
         stroke: {
           show: true,

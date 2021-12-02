@@ -56,6 +56,7 @@
       :columns="columns"
       :filter="filter"
       row-key="codigo"
+      :rows-per-page-options="[50,100,200,0]"
     >
           <template v-slot:top-right>
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Buscar">
@@ -63,6 +64,13 @@
             <q-icon name="search" />
           </template>
         </q-input>
+      </template>
+      <template v-slot:body-cell-subcategorias="props">
+        <q-td key="subcategorias" :props="props">
+          <ul style="border: 0px;margin: 0px;padding: 0px;list-style: none" v-for="s in props.row.subcategorias" :key="s.id">
+            <li style="border: 0px;margin: 0px;padding: 0px;list-style: none">{{ s.codigo }} {{ s.nombre }}</li>
+          </ul>
+        </q-td>
       </template>
       <template v-slot:body-cell-opcion="props">
           <q-td key="opcion" :props="props">
@@ -134,7 +142,7 @@
             class="q-gutter-md"
           >
           <div class="row">
-          <div class="col-3">            
+          <div class="col-3">
           <q-input
               filled
               dense
@@ -144,7 +152,7 @@
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa codigo']"
             /> </div>
-          <div class="col-3">        
+          <div class="col-3">
                <q-input
               filled dense
               v-model="subc.nombre"
@@ -153,7 +161,7 @@
               lazy-rules
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa nombre']"
             /></div>
-          <div class="col-3">          
+          <div class="col-3">
             <q-input
               filled dense
               v-model="subc.sigla"
@@ -163,16 +171,16 @@
               :rules="[ val => val && val.length > 0 || 'Por favor ingresa sigla']"
             /> </div>
             <div class="col-3">
-             <q-btn label="Modificar" @click="onModsub" color="yellow" icon="edit" v-if="boolmod"/>         
+             <q-btn label="Modificar" @click="onModsub" color="yellow" icon="edit" v-if="boolmod"/>
              <q-btn label="Crear" type="submit" color="positive" icon="add_circle" v-else />
-             </div>             
+             </div>
             </div>
           </q-form>
 
       <q-table
       title="Sub Categorias"
       :rows="sub"
-      :columns="columns2" 
+      :columns="columns2"
       :filter="filter2"
       dense>
       <template v-slot:top-right>
@@ -236,20 +244,9 @@ export default {
       subc:{},
       modprod:{},
       columns: [
-    {
-          name: 'codigo',
-          label: 'Codigo',
-          align: 'left',
-          field: row=>row.codigo,
-          sortable: true
-        },
-        {
-          name: 'nombre',
-          label: 'Nombre',
-          align: 'left',
-          field: 'nombre',
-          sortable: true
-        },
+        {name: 'codigo', label: 'Codigo', align: 'left', field: row=>row.codigo, sortable: true},
+        {name: 'nombre', label: 'Nombre', align: 'left', field: 'nombre', sortable: true},
+        {name: 'subcategorias', label: 'Subcategorias', align: 'left', field: 'subcategorias', sortable: true},
         { name: 'sigla', align: 'center', label: 'Sigla', field: 'sigla', sortable: true },
         { name: 'fecha', align: 'center', label: 'Fecha', field: 'fecha' },
         { name: 'opcion', label: 'Opcion', field:'opcion'}
@@ -310,7 +307,7 @@ export default {
       this.$axios.get(process.env.API+'/categoria').then(res=>{
         console.log(res.data)
         this.data=res.data;
-       
+
         this.$q.loading.hide();
       })
     },

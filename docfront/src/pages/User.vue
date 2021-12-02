@@ -56,14 +56,14 @@
                     :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"
                   />
 
-                <q-select
-                  filled
-                  v-model="dato.unit"
-                  label="Unidad"
-                  :options="units"
-                  hint="Selecionar unidad"
-                  option-label="nombre"
-                />
+<!--                <q-select-->
+<!--                  filled-->
+<!--                  v-model="dato.unit"-->
+<!--                  label="Unidad"-->
+<!--                  :options="units"-->
+<!--                  hint="Selecionar unidad"-->
+<!--                  option-label="nombre"-->
+<!--                />-->
 
                 <!--                <q-input-->
                 <!--                  filled-->
@@ -142,9 +142,9 @@
           <q-td key="email" :props="props">
             {{props.row.email}}
           </q-td>
-          <q-td key="unit" :props="props">
-            {{props.row.unit.nombre}}
-          </q-td>
+<!--          <q-td key="unit" :props="props">-->
+<!--&lt;!&ndash;            {{props.row.unit.nombre}}&ndash;&gt;-->
+<!--          </q-td>-->
           <q-td key="permisos" :props="props">
             <!--            {{props.row.permisos}}-->
             <ul>
@@ -404,10 +404,10 @@ export default {
         // {name: "unid", align: "left", label: "Unidad", field: "unid", sortable: true,},
         // {name: "codigo", align: "left", label: "Codigo", field: "codigo", sortable: true,},
         {name: "email", align: "left", label: "E-MAIL", field: "email", sortable: true,},
-        {name: "unit", align: "left", label: "UNIDAD", field: "unit", sortable: true,},
+        // {name: "unit", align: "left", label: "UNIDAD", field: "unit", sortable: true,},
         {name: "permisos", align: "left", label: "PERMISOS", field: "permisos", sortable: true,},
         {name: "fechalimite", align: "left", label: "FECHA LÍMITE", field: "fechalimite", sortable: true,},
-        {name: "tipo", align: "left", label: "TIPO", field: "tipo", sortable: true,},
+        // {name: "tipo", align: "left", label: "TIPO", field: "tipo", sortable: true,},
         { name: "opcion", label: "OPCIÓN", field: "action", sortable: false },
       ],
       data: [],
@@ -483,21 +483,21 @@ export default {
       this.dialog_del = true;
     },
     onSubmit() {
-      if (this.dato.unit=='' || this.dato.unit==undefined){
-        this.$q.notify({
-          message:'Debeser seleccionar unidad',
-          color:'red',
-          icon:'error'
-        })
-        return false
-      }
+      // if (this.dato.unit=='' || this.dato.unit==undefined){
+      //   this.$q.notify({
+      //     message:'Debeser seleccionar unidad',
+      //     color:'red',
+      //     icon:'error'
+      //   })
+      //   return false
+      // }
       this.$q.loading.show();
       // this.dato.unid_id=this.dato.unid_id.id;
       this.$axios.post(process.env.API + "/user", {
         name:this.dato.name,
         password:this.dato.password,
         email:this.dato.email,
-        unit_id:this.dato.unit.id,
+        // unit_id:this.dato.unit.id,
         celular:this.dato.celular,
         carnet:this.dato.carnet,
         // unid_id:this.dato.unid_id.id,
