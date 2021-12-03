@@ -148,8 +148,8 @@ module.exports = configure(function (ctx) {
       },
 
       manifest: {
-        name: `Correspondencia`,
-        short_name: `Correspondencia`,
+        name: `APMT`,
+        short_name: `APMT`,
         description: `A Quasar Framework app`,
         display: 'standalone',
         orientation: 'portrait',
