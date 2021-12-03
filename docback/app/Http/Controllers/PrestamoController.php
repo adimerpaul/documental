@@ -12,9 +12,16 @@ class PrestamoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+//        return $request->user();
+        return Prestamo::
+                with('user')
+            ->with('documento')
+            ->where('user_id',$request->user()->id)
+            ->where('estado','ACEPTADO')
+            ->orWhere('estado','SOLICITADO')
+            ->get();
     }
 
     /**
@@ -35,7 +42,15 @@ class PrestamoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//        return $request;
+        $prestamo=new Prestamo();
+        $prestamo->fechaprestamo=now();
+        $prestamo->fechadevolucion=null;
+        $prestamo->observacion='';
+        $prestamo->estado="SOLICITADO";
+        $prestamo->user_id=$request->user()->id;
+        $prestamo->documento_id=$request->documento_id;
+        $prestamo->save();
     }
 
     /**
@@ -44,9 +59,10 @@ class PrestamoController extends Controller
      * @param  \App\Models\Prestamo  $prestamo
      * @return \Illuminate\Http\Response
      */
-    public function show(Prestamo $prestamo)
+    public function show($id)
     {
-        //
+//        return $id;
+        return Prestamo::with('user')->with('documento')->where('estado','SOLICITADO')->get();
     }
 
     /**
@@ -69,7 +85,8 @@ class PrestamoController extends Controller
      */
     public function update(Request $request, Prestamo $prestamo)
     {
-        //
+//        return $request;
+        $prestamo->update($request->all());
     }
 
     /**
@@ -80,6 +97,6 @@ class PrestamoController extends Controller
      */
     public function destroy(Prestamo $prestamo)
     {
-        //
+        $prestamo->delete();
     }
 }

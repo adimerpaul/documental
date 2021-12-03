@@ -24,8 +24,7 @@
       </q-form>
     </div>
     <div class="col-12">
-      <q-table dense title="Correspondencia de unidad" :rows="mails" :columns="columns" :filter="filter"       :rows-per-page-options="[50,100,150,200,0]"
-      >
+      <q-table dense title="Control de documentos" :rows="mails" :columns="columns" :filter="filter"       :rows-per-page-options="[50,100,150,200,0]">
         <template v-slot:top-right>
           <q-input borderless dense debounce="300" v-model="filter" placeholder="Buscar">
             <template v-slot:append>

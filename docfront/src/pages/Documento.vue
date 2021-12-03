@@ -334,8 +334,6 @@ export default {
            this.data=res.data;
           this.$q.loading.hide();
         })
-
-
     },
       cargarsubcat(){
         this.subcat=[]
@@ -390,7 +388,7 @@ export default {
         this.dialog_del=true;
     },
     print(){
-      
+
     },
     onSubmit () {
 

@@ -18,7 +18,7 @@ class PrestamoSeeder extends Seeder
             "fechaprestamo"=>"2021-11-27",
 //            "fechadevolucion"=>null,
             "observacion"=>"",
-            "estado"=>"PEDIDO",
+            "estado"=>"SOLICITADO",
             'user_id'=>"1",
             'documento_id'=>"1",
         ]);

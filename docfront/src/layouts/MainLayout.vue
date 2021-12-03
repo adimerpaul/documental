@@ -41,15 +41,8 @@
     >
       <q-scroll-area style="height: calc(100% - 130px); margin-top: 130px; border-right: 1px solid #ddd">
         <q-list padding>
-          <q-item
-            clickable
-            exact
-            to="/"
-            v-if="!$store.getters['login/isLoggedIn']"
-          >
-            <q-item-section
-              avatar
-            >
+          <q-item clickable exact to="/" v-if="!$store.getters['login/isLoggedIn']">
+            <q-item-section avatar>
               <q-icon name="login" />
             </q-item-section>
 
@@ -61,14 +54,21 @@
             </q-item-section>
           </q-item>
 
-          <q-item
-            v-if="$store.state.login.boolusuarios"
-            clickable
-            to="/user"
-          >
-            <q-item-section
-              avatar
-            >
+          <q-item clickable exact to="/reportegraf" v-if="$store.getters['login/isLoggedIn']">
+            <q-item-section avatar>
+              <q-icon name="home" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Principal</q-item-label>
+              <q-item-label caption>
+                Consulta de prestamos
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item v-if="$store.state.login.boolcontrolusuarios" clickable to="/user">
+            <q-item-section avatar>
               <q-icon name="people" />
             </q-item-section>
 
@@ -80,14 +80,9 @@
             </q-item-section>
           </q-item>
 
-          <q-item            
-            clickable
-            to="/categoria"
-          >
-            <q-item-section
-              avatar
-            >
-              <q-icon name="article" />
+          <q-item v-if="$store.state.login.boolregistrocategoria" clickable to="/categoria">
+            <q-item-section avatar>
+              <q-icon name="category" />
             </q-item-section>
 
             <q-item-section>
@@ -99,16 +94,10 @@
           </q-item>
 
 
-          <q-item            
-            clickable
-            to="/documento"
-          >
-            <q-item-section
-              avatar
-            >
+          <q-item v-if="$store.state.login.boolregistrodocumento" clickable to="/documento">
+            <q-item-section avatar>
               <q-icon name="article" />
             </q-item-section>
-
             <q-item-section>
               <q-item-label>Registro de documento</q-item-label>
               <q-item-label caption>
@@ -118,43 +107,60 @@
           </q-item>
 
 
-          <q-item
-            v-if="$store.state.login.boolseguimiento"
-            clickable
-            to="/"
-          >
-            <q-item-section
-              avatar
-            >
-              <q-icon name="list" />
+          <q-item v-if="$store.state.login.boolaceptarsolicitudes" clickable to="/aceptarsolicitudes" exact>
+            <q-item-section avatar>
+              <q-icon name="done" />
             </q-item-section>
-
             <q-item-section>
-              <q-item-label>Prestamo</q-item-label>
+              <q-item-label>Aceptar solicitudes</q-item-label>
               <q-item-label caption>
-                Prestamo de archivos
+                Aceptar solicitudes
               </q-item-label>
             </q-item-section>
           </q-item>
 
-          <q-item
-            v-if="$store.state.login.boolmisrecepciones"
-            clickable
-            to="/misrecepciones"
-          >
-            <q-item-section
-              avatar
-            >
-              <q-icon name="picture_as_pdf" />
+          <q-item v-if="$store.state.login.boolsolicitarprestamos" clickable to="/solicitarprestamo" exact>
+            <q-item-section avatar>
+              <q-icon name="code" />
             </q-item-section>
-
             <q-item-section>
-              <q-item-label>Mis recepciones</q-item-label>
+              <q-item-label>Solicitar prestamos</q-item-label>
               <q-item-label caption>
-                Historial de mis recepciones
+                Solicitar prestamos
               </q-item-label>
             </q-item-section>
           </q-item>
+
+          <q-item v-if="$store.state.login.boolmissolicitudes" clickable to="/missolicitudes" exact>
+            <q-item-section avatar>
+              <q-icon name="calendar_today" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Mis solicitudes</q-item-label>
+              <q-item-label caption>
+                Mis solicitudes
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+
+<!--          <q-item-->
+<!--            v-if="$store.state.login.boolmisrecepciones"-->
+<!--            clickable-->
+<!--            to="/misrecepciones"-->
+<!--          >-->
+<!--            <q-item-section-->
+<!--              avatar-->
+<!--            >-->
+<!--              <q-icon name="picture_as_pdf" />-->
+<!--            </q-item-section>-->
+
+<!--            <q-item-section>-->
+<!--              <q-item-label>Mis recepciones</q-item-label>-->
+<!--              <q-item-label caption>-->
+<!--                Historial de mis recepciones-->
+<!--              </q-item-label>-->
+<!--            </q-item-section>-->
+<!--          </q-item>-->
 
 
           <q-item

@@ -7,6 +7,9 @@ import Misrecepciones from "pages/Misrecepciones";
 import Categoria from "pages/Categoria";
 import Documento from "pages/Documento";
 import Reportegraf from "pages/Reportegraf";
+import Solicitarprestamo from "pages/Solicitarprestamo";
+import Missolicitudes from "pages/Missolicitudes";
+import Aceptarsolicitudes from "pages/Aceptarsolicitudes";
 
 const routes = [
   {
@@ -22,6 +25,9 @@ const routes = [
       { path: '/categoria', component: Categoria,meta: {requiresAuth: true,} },
       { path: '/documento', component: Documento,meta: {requiresAuth: true,} },
       { path: '/reportegraf', component: Reportegraf,meta: {requiresAuth: true,} },
+      { path: '/solicitarprestamo', component: Solicitarprestamo,meta: {requiresAuth: true,} },
+      { path: '/missolicitudes', component: Missolicitudes,meta: {requiresAuth: true,} },
+      { path: '/aceptarsolicitudes', component: Aceptarsolicitudes,meta: {requiresAuth: true,} },
     ]
   },
 

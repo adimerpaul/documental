@@ -148,7 +148,7 @@ export default {
   },
   created() {
     if (this.$store.getters["login/isLoggedIn"]){
-      this.$router.push('/user')
+      this.$router.push('/reportegraf')
     }
 
     this.$q.loading.show()
@@ -191,7 +191,7 @@ export default {
       this.user.unit_id=this.user.unit.id
       this.$store.dispatch('login/register', this.user).then(() =>{
         this.$q.loading.hide()
-        this.$router.push('/user')
+        this.$router.push('/reportegraf')
       })
         .catch(err => {
           this.$q.loading.hide();
@@ -212,7 +212,7 @@ export default {
       this.$q.loading.show()
       this.$store.dispatch('login/login', { email:this.email, password:this.password }).then(() =>{
         this.$q.loading.hide()
-        this.$router.push('/user')
+        this.$router.push('/reportegraf')
       })
         .catch(err => {
           this.$q.loading.hide();
