@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Prestamo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class PrestamoController extends Controller
 {
@@ -98,5 +100,9 @@ class PrestamoController extends Controller
     public function destroy(Prestamo $prestamo)
     {
         $prestamo->delete();
+    }
+
+    public function conprestamo(Request $request){
+        return DB::SELECT('SELECT fechaprestamo,count(*) as cantidad from prestamos where fechaprestamo>= "'.$request->fecha1.'" and fechaprestamo<="'.$request->fecha2.'" group by fechaprestamo');
     }
 }

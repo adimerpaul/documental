@@ -143,4 +143,12 @@ class DocumentoController extends Controller
     public function consulta(Request $request){
         return DB::SELECT('SELECT fecha,count(*) as cantidad from documentos where fecha>= "'.$request->fecha1.'" and fecha<="'.$request->fecha2.'" group by fecha');
     }
+
+    public function concategoria(){
+        return DB::SELECT('SELECT c.nombre,count(*) as cantidad from documentos d inner join categorias c on d.categoria_id=c.id  group by c.nombre');
+    }
+
+    public function consubcategoria(){
+        return DB::SELECT('SELECT c.nombre,count(*) as cantidad from documentos d inner join subcategorias c on d.subcategoria_id=c.id  group by c.nombre');
+    }
 }
