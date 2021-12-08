@@ -8,11 +8,43 @@
       <q-card-section>
       <div class="row">
       <div class="col-10">
-        <div class="text-h6">Numeros de Registros </div>
-        <div class="text-subtitle2">by John Doe</div>
+        <div class="text-h6">Numero de Registros </div>
+        <div class="text-subtitle2">{{numdoc}}</div>
       </div>  
       <div class="col-2">
         <q-icon color="white" name="description" size="xl"/>      
+      </div>
+      </div>
+       </q-card-section>
+      </q-card>      
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+    <q-card dense class="my-card bg-accent text-white" >
+      <q-card-section>
+      <div class="row">
+      <div class="col-10">
+        <div class="text-h6">Numero de Prestamos </div>
+        <div class="text-subtitle2">{{numpres }}</div>
+      </div>  
+      <div class="col-2">
+        <q-icon color="white" name="send" size="xl"/>      
+      </div>
+      </div>
+       </q-card-section>
+      </q-card>      
+    </div>
+
+        <div class="col-xs-12 col-md-4">
+    <q-card dense class="my-card bg-teal text-white" >
+      <q-card-section>
+      <div class="row">
+      <div class="col-10">
+        <div class="text-h6">Numero de Devolucion </div>
+        <div class="text-subtitle2">{{numdev }}</div>
+      </div>  
+      <div class="col-2">
+        <q-icon color="white" name="reply" size="xl"/>      
       </div>
       </div>
        </q-card-section>
@@ -70,6 +102,9 @@ export default defineComponent({
     return {
       fecha1:date.formatDate(Date.now(),'YYYY-MM-DD'),
       fecha2:date.formatDate( Date.now(),'YYYY-MM-DD'),
+      numdoc:0,
+      numpres:0,
+      numdev:0,
       series: [{
         name: 'Registros',
         data: [1,1,1,1,1]
@@ -206,8 +241,19 @@ export default defineComponent({
     this.consultar2()
     this.consultar3()
     this.consultar4()
+    this.contador()
   },
   methods:{
+      contador(){
+      this.$axios.post(process.env.API+'/totales').then(res=>{
+        console.log(res.data)
+        this.numdoc=res.data[0].docs;
+        this.numpres=res.data[0].nprestamo;
+        this.numdev=res.data[0].ndevol;      
+        
+      })
+
+      },
       consultar(){
       let fechas=[]
       let valores=[]

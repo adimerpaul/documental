@@ -151,4 +151,10 @@ class DocumentoController extends Controller
     public function consubcategoria(){
         return DB::SELECT('SELECT c.nombre,count(*) as cantidad from documentos d inner join subcategorias c on d.subcategoria_id=c.id  group by c.nombre');
     }
+
+    public function totales(){
+        return DB::SELECT('SELECT(SELECT count(*)FROM documentos)as docs ,
+        (SELECT count(*) FROM prestamos)as nprestamo,
+        (SELECT count(*) FROM prestamos where fechadevolucion is not null)as ndevol');
+    }
 }

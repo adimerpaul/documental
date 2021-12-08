@@ -51,6 +51,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('/consulta',[\App\Http\Controllers\DocumentoController::class,'consulta']);
     Route::post('/concategoria',[\App\Http\Controllers\DocumentoController::class,'concategoria']);
     Route::post('/consubcategoria',[\App\Http\Controllers\DocumentoController::class,'consubcategoria']);
+    Route::post('/totales',[\App\Http\Controllers\DocumentoController::class,'totales']);
     Route::post('/conprestamo',[\App\Http\Controllers\PrestamoController::class,'conprestamo']);
 });
 //Route::get('/mail/{mail}/{user}',[\App\Http\Controllers\MailController::class,'show']);
