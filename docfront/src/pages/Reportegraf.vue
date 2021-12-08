@@ -1,6 +1,25 @@
 <template>
   <q-page >
     <q-card>
+    <div class="row">
+
+    <div class="col-xs-12 col-md-4">
+    <q-card dense class="my-card bg-primary text-white" >
+      <q-card-section>
+      <div class="row">
+      <div class="col-10">
+        <div class="text-h6">Numeros de Registros </div>
+        <div class="text-subtitle2">by John Doe</div>
+      </div>  
+      <div class="col-2">
+        <q-icon color="white" name="description" size="xl"/>      
+      </div>
+      </div>
+       </q-card-section>
+      </q-card>      
+    </div>
+
+    </div>
       <q-form @submit.prevent="consultar">
         <div class="row q-pa-md">
           <div class="col-4">
@@ -21,14 +40,14 @@
         </div>
         <div class="col-6">
           <div style='text-align:center'> <b>N DE DOCUMENTOS POR CATEGORIA</b></div>
-          <apexchart type="bar" height="350" :options="chartOptions2" :series="seriecategoria"></apexchart>
+          <apexchart type="donut" height="350" :options="chartOptions2" :series="seriecategoria"></apexchart>
 
         </div>
       </div>
       <div class="row">
         <div class="col-sm-12 col-md-6">
           <div style='text-align:center'> <b>N DE DOCUMENTOS POR SUB-CATEGORIA</b></div>
-          <apexchart type="bar" height="350" :options="chartOptions3" :series="seriesubcategoria"></apexchart>
+          <apexchart type="donut" height="350" :options="chartOptions3" :series="seriesubcategoria"></apexchart>
 
         </div>
         <div class="col-sm-12 col-md-6">
@@ -112,10 +131,6 @@ export default defineComponent({
         }
       },
     chartOptions2: {
-        chart: {
-          type: 'bar',
-          height: 350
-        },
         dataLabels: {
           enabled: true
         },
@@ -123,41 +138,10 @@ export default defineComponent({
           show: true,
           width: 2,
           colors: ['transparent']
-        },
-        xaxis: {
-          categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        },
-        yaxis: {
-          title: {
-            text: 'Cantidad'
-          }
-        },
-        fill: {
-          opacity: 1
-        },
-              colors: [
-
-        "#13d8aa",
-        "#A5978B",
-        "#2b908f",
-        "#f9a3a4",
-        "#90ee7e",
-        "#f48024",
-        "#69d2e7"
-      ],
-        tooltip: {
-          y: {
-            formatter: function (val) {
-              return " " + val + " "
-            }
-          }
         }
       },
+      
       chartOptions3: {
-        chart: {
-          type: 'bar',
-          height: 350
-        },
         dataLabels: {
           enabled: true
         },
@@ -166,35 +150,6 @@ export default defineComponent({
           width: 2,
           colors: ['transparent']
         },
-        xaxis: {
-          categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        },
-        yaxis: {
-          title: {
-            text: 'Cantidad'
-          }
-        },
-        fill: {
-          opacity: 1
-        },
-              colors: [
-
-        "#d4526e",
-        "#13d8aa",
-        "#A5978B",
-        "#2b908f",
-        "#f9a3a4",
-        "#90ee7e",
-        "#f48024",
-        "#69d2e7"
-      ],
-        tooltip: {
-          y: {
-            formatter: function (val) {
-              return " " + val + " "
-            }
-          }
-        }
       },
             chartOptions4: {
         chart: {
@@ -284,14 +239,13 @@ export default defineComponent({
           valores.push(r.cantidad)
         })
         this.chartOptions2={
-          xaxis: {
-            categories: nombres
-          },
+          labels: 
+             nombres
+          ,
         }
-        this.seriecategoria= [{
-          name: 'Registros por Dia',
-          data: valores
-        }];
+        this.seriecategoria= 
+           valores
+        ;
         this.$q.loading.hide()
       })
     },
@@ -306,14 +260,11 @@ export default defineComponent({
           valores.push(r.cantidad)
         })
         this.chartOptions3={
-          xaxis: {
-            categories: nombres
-          },
+          labels: nombres
+          ,
         }
-        this.seriesubcategoria= [{
-          name: 'Registros por Dia',
-          data: valores
-        }];
+        this.seriesubcategoria=          valores
+        ;
         this.$q.loading.hide()
       })
     },
