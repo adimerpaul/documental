@@ -113,7 +113,7 @@ class DocumentoController extends Controller
      */
     public function update(Request $request, Documento $documento)
     {
-        
+
         $doc=Documento::find($request->id);
         $doc->fondo=$request->fondo;
         $doc->gestion=$request->gestion;
@@ -156,5 +156,55 @@ class DocumentoController extends Controller
         return DB::SELECT('SELECT(SELECT count(*)FROM documentos)as docs ,
         (SELECT count(*) FROM prestamos)as nprestamo,
         (SELECT count(*) FROM prestamos where fechadevolucion is not null)as ndevol');
+    }
+
+    public function reporte(Request $request){
+        $i=0;
+        $doc= Documento::with('categoria')->with('subcategoria')->get();
+        $total=sizeof($doc);
+        $cadena="<html>
+        <style>
+        table, th, td {
+            border: 1px solid black;
+          }
+          table{width:100%;
+            border-collapse: collapse;}
+            .titulo{
+                text-align:center;
+                font-weight: bold;
+            }
+            .subt{
+                font-weight: bold;
+            }
+            .imagen{width:100px;
+                height:100px;}
+                *{
+                    padding: 0px;
+                    margin: 0px;
+                    border: 0px;}
+        </style>
+
+        <body>
+        <table>
+        <tr><td><img class='imagen' src='img/estado.png'></td><td class='titulo'>AUTORIDAD PLURINACIONAL DE LA  MADRE TIERRA <br> INVENTARIO DE ARCHIVO DE GESTION</td><td ><img class='imagen' src='img/fondo.jpg'></td></tr>
+        </table>
+        <table>
+        <tr><td colspan=3>1. AREA DE DATOS GENERALES</td></tr>
+        <tr><td><b>UNIDAD/DIRECCION</b> </td><td>FECHA DE REPORTE</td><td>".date('Y-m-d')."</td></tr>
+        <tr><td><b>RESPONSABLE DE UNIDAD/DIRECCION</b>". $request->user()->name."</td><td>TOTAL REPORTES</td><td>".$total."</td></tr>
+        <tr></tr>
+        <tr><td colspan=3>2. AREA DE DESCRIPCION DE ARCHIVOS</td></tr>
+
+        </table>
+        <table>
+        <thead><tr><th>Nº</th><th>TITULO EXPEDIENTE</th><th>CATEGORIA</th><th>SUBCATEGORIA</th><th>FECHA DE CREACION</th></tr></thead>
+        <tbody>";
+        foreach ($doc as $row) {
+            $i++;
+            $cadena.="<tr><td>$i</td><td>$row->detalles</td><td>".$row->categoria['nombre']."</td><td>".$row->subcategoria['nombre']."</td>
+            <td>$row->fecha</td></tr>";
+        }
+        $cadena.="</tbody></table>";
+        return $cadena;
     }
 }

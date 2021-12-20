@@ -50,7 +50,8 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('/uparchivo',[\App\Http\Controllers\DocumentoController::class,'uparchivo']);
     Route::post('/consulta',[\App\Http\Controllers\DocumentoController::class,'consulta']);
     Route::post('/concategoria',[\App\Http\Controllers\DocumentoController::class,'concategoria']);
-    Route::post('/consubcategoria',[\App\Http\Controllers\DocumentoController::class,'consubcategoria']);
+    Route::post('/concategoria',[\App\Http\Controllers\DocumentoController::class,'concategoria']);
+    Route::post('/reporte',[\App\Http\Controllers\DocumentoController::class,'reporte']);
     Route::post('/totales',[\App\Http\Controllers\DocumentoController::class,'totales']);
     Route::post('/conprestamo',[\App\Http\Controllers\PrestamoController::class,'conprestamo']);
 });
