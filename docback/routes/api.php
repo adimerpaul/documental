@@ -55,5 +55,6 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('/totales',[\App\Http\Controllers\DocumentoController::class,'totales']);
     Route::post('/conprestamo',[\App\Http\Controllers\PrestamoController::class,'conprestamo']);
 });
-//Route::get('/mail/{mail}/{user}',[\App\Http\Controllers\MailController::class,'show']);
+    Route::get('/reporte',[\App\Http\Controllers\DocumentoController::class,'reporte']);
+    //Route::get('/mail/{mail}/{user}',[\App\Http\Controllers\MailController::class,'show']);
 

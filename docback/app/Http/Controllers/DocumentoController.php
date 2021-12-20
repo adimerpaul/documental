@@ -201,10 +201,109 @@ class DocumentoController extends Controller
         <tbody>";
         foreach ($doc as $row) {
             $i++;
-            $cadena.="<tr><td>$i</td><td>$row->detalles</td><td>".$row->categoria['nombre']."</td><td>".$row->subcategoria['nombre']."</td>
+            $cadena.="<tr><td>$i</td><td>$row->detalle</td><td>".$row->categoria['nombre']."</td><td>".$row->subcategoria['nombre']."</td>
             <td>$row->fecha</td></tr>";
         }
-        $cadena.="</tbody></table>";
+        $cadena.="</tbody></table></body></html>";
         return $cadena;
     }
+    public function repcategoria(Request $request){
+        $i=0;
+        $doc= DB::SELECT("SELECT count(*) as cantidad,c.nombre as categ,s.nombre as subcat 
+        FROM documentos d inner join categorias c on d.categoria_id=c.id inner JOIN subcategorias s on d.subcategoria_id=s.id
+        GROUP by c.nombre,s.nombre");
+        $total=sizeof($doc);
+        $cadena="<html>
+        <style>
+        table, th, td {
+            border: 1px solid black;
+          }
+          table{width:100%;
+            border-collapse: collapse;}
+            .titulo{
+                text-align:center;
+                font-weight: bold;
+            }
+            .subt{
+                font-weight: bold;
+            }
+            .imagen{width:100px;
+                height:100px;}
+                *{
+                    padding: 0px;
+                    margin: 0px;
+                    border: 0px;}
+        </style>
+
+        <body>
+        <table>
+        <tr><td><img class='imagen' src='img/estado.png'></td><td class='titulo'>AUTORIDAD PLURINACIONAL DE LA  MADRE TIERRA <br> INVENTARIO DE ARCHIVO DE GESTION</td><td ><img class='imagen' src='img/fondo.jpg'></td></tr>
+        </table>
+        <table>
+        <tr><td colspan=2>1. AREA DE DATOS GENERALES</td></tr>
+        <tr><td>FECHA DE REPORTE</td><td>".date('Y-m-d')."</td></tr>
+        <tr><td>TOTAL EXP</td><td>".$total."</td></tr>
+        <tr></tr>
+        <tr><td colspan=2>2. AREA DE DESCRIPCION DE ARCHIVOS</td></tr>
+
+        </table>
+        <table>
+        <thead><tr><th>Nº</th><th>CATEGORIA</th><th>SUBCATEGORIA</th><th>CANTIDAD ARCHIVOS</th></tr></thead>
+        <tbody>";
+        foreach ($doc as $row) {
+            $i++;
+            $cadena.="<tr><td>$i</td><td>".$row->categ."</td><td>".$row->subcateg."</td><td>$row->cantidad</td></tr>";
+        }
+        $cadena.="</tbody></table></body></html>";
+        return $cadena;
+    }
+    public function repprestamo(Request $request){
+        $i=0;
+        $doc= DB::SELECT("SELECT d.detalle,u.name,p.observacion,p.fechaprestamo,p.fechadevolucion FROM documentos d inner join prestamos p on d.id=p.documento_id inner join users u on p.user_id=u.id;");
+        $total=sizeof($doc);
+        $cadena="<html>
+        <style>
+        table, th, td {
+            border: 1px solid black;
+          }
+          table{width:100%;
+            border-collapse: collapse;}
+            .titulo{
+                text-align:center;
+                font-weight: bold;
+            }
+            .subt{
+                font-weight: bold;
+            }
+            .imagen{width:100px;
+                height:100px;}
+                *{
+                    padding: 0px;
+                    margin: 0px;
+                    border: 0px;}
+        </style>
+
+        <body>
+        <table>
+        <tr><td><img class='imagen' src='img/estado.png'></td><td class='titulo'>AUTORIDAD PLURINACIONAL DE LA  MADRE TIERRA <br> PRESTAMOS DE ARCHIVO DE GESTION</td><td ><img class='imagen' src='img/fondo.jpg'></td></tr>
+        </table>
+        <table>
+        <tr><td colspan=2>1. AREA DE DATOS GENERALES</td></tr>
+        <tr><td>FECHA DE REPORTE</td><td>".date('Y-m-d')."</td></tr>
+        <tr><td>TOTAL </td><td>".$total."</td></tr>
+        <tr></tr>
+        <tr><td colspan=2>2. AREA DE DESCRIPCION DE ARCHIVOS</td></tr>
+
+        </table>
+        <table>
+        <thead><tr><th>Nº</th><th>DOCUMENTO</th><th>SOLICITANTE</th><th>OBSERVACION</th><th>FEC PRESTAMO</th><<th>FEC DEVOLUCION</th></tr></thead>
+        <tbody>";
+        foreach ($doc as $row) {
+            $i++;
+            $cadena.="<tr><td>$i</td><td>".$row->detalle."</td><td>".$row->name."</td><td>".$row->observacion."</td><td>$row->fechaprestamo</td><td>$row->fechadevolucion</td></tr>";
+        }
+        $cadena.="</tbody></table></body></html>";
+        return $cadena;
+    }
+    
 }
