@@ -17,8 +17,8 @@
       </q-form>
       <div class="row">
             <q-btn color="secondary" label="Documentos Registrados" @click="consultar"/>
-            <q-btn color="amber" glossy label="Documentos Categoria" />
-            <q-btn color="brown-5" label="Documentos Prestados" />
+            <q-btn color="amber" glossy label="Documentos Categoria" @click="consultar2"/>
+            <q-btn color="brown-5" label="Documentos Prestados" @click="consultar3"/>
             <!--<q-btn color="deep-orange" glossy label="Deep Orange" />
              <q-btn color="purple" label="Purple" />-->
       </div>
@@ -49,7 +49,6 @@ export default defineComponent({
 
       consultar(){
       this.$axios.post(process.env.API+'/reporte',{fecha1:this.fecha1,fecha2:this.fecha2}).then(res=>{
-        console.log(res.data)
         let myWindow = window.open("", "Imprimir", "width=200,height=100");
         myWindow.document.write(res.data);
         myWindow.document.close();
@@ -62,67 +61,30 @@ export default defineComponent({
     },
 
     consultar2(){
-      this.$q.loading.show()
-      let nombres=[]
-      let valores=[]
-      this.$axios.post(process.env.API+'/concategoria').then(res=>{
-        console.log(res.data)
-        res.data.forEach(r=>{
-          nombres.push(r.nombre)
-          valores.push(r.cantidad)
-        })
-        this.chartOptions2={
-          labels: 
-             nombres
-          ,
-        }
-        this.seriecategoria= 
-           valores
-        ;
-        this.$q.loading.hide()
-      })
+      this.$axios.post(process.env.API+'/repcategoria',{fecha1:this.fecha1,fecha2:this.fecha2}).then(res=>{
+        let myWindow = window.open("", "Imprimir", "width=200,height=100");
+        myWindow.document.write(res.data);
+        myWindow.document.close();
+        myWindow.focus();
+        setTimeout(function(){
+          myWindow.print();
+          myWindow.close();
+        },500);
+      });
     },
         consultar3(){
-      this.$q.loading.show()
-      let nombres=[]
-      let valores=[]
-      this.$axios.post(process.env.API+'/consubcategoria').then(res=>{
-        console.log(res.data)
-        res.data.forEach(r=>{
-          nombres.push(r.nombre)
-          valores.push(r.cantidad)
-        })
-        this.chartOptions3={
-          labels: nombres
-          ,
-        }
-        this.seriesubcategoria=          valores
-        ;
-        this.$q.loading.hide()
-      })
+      this.$axios.post(process.env.API+'/repprestamo',{fecha1:this.fecha1,fecha2:this.fecha2}).then(res=>{
+        let myWindow = window.open("", "Imprimir", "width=200,height=100");
+        myWindow.document.write(res.data);
+        myWindow.document.close();
+        myWindow.focus();
+        setTimeout(function(){
+          myWindow.print();
+          myWindow.close();
+        },500);
+      });
     },
-            consultar4(){
-      this.$q.loading.show()
-      let fechas=[]
-      let valores=[]
-      this.$axios.post(process.env.API+'/conprestamo',{fecha1:this.fecha1,fecha2:this.fecha2}).then(res=>{
-        console.log(res.data)
-        res.data.forEach(r=>{
-          fechas.push(r.fechaprestamo)
-          valores.push(r.cantidad)
-        })
-        this.chartOptions4={
-          xaxis: {
-            categories: fechas
-          },
-        }
-        this.serieprestamo= [{
-          name: 'Registros por Dia',
-          data: valores
-        }];
-        this.$q.loading.hide()
-      })
-    },
+
 
   }
 })

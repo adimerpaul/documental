@@ -52,6 +52,8 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('/concategoria',[\App\Http\Controllers\DocumentoController::class,'concategoria']);
     Route::post('/concategoria',[\App\Http\Controllers\DocumentoController::class,'concategoria']);
     Route::post('/reporte',[\App\Http\Controllers\DocumentoController::class,'reporte']);
+    Route::post('/repcategoria',[\App\Http\Controllers\DocumentoController::class,'repcategoria']);
+    Route::post('/repprestamo',[\App\Http\Controllers\DocumentoController::class,'repprestamo']);
     Route::post('/totales',[\App\Http\Controllers\DocumentoController::class,'totales']);
     Route::post('/conprestamo',[\App\Http\Controllers\PrestamoController::class,'conprestamo']);
     Route::post('/reporte',[\App\Http\Controllers\DocumentoController::class,'reporte']);

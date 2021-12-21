@@ -209,8 +209,9 @@ class DocumentoController extends Controller
     }
     public function repcategoria(Request $request){
         $i=0;
-        $doc= DB::SELECT("SELECT count(*) as cantidad,c.nombre as categ,s.nombre as subcat 
+        $doc= DB::SELECT("SELECT count(*) as cantidad,c.nombre as categ,s.nombre as subcat
         FROM documentos d inner join categorias c on d.categoria_id=c.id inner JOIN subcategorias s on d.subcategoria_id=s.id
+        where date(d.fecha) >= $request->fecha1 and date (d.fecha)<=$request->fecha2
         GROUP by c.nombre,s.nombre");
         $total=sizeof($doc);
         $cadena="<html>
@@ -227,8 +228,8 @@ class DocumentoController extends Controller
             .subt{
                 font-weight: bold;
             }
-            .imagen{width:100px;
-                height:100px;}
+            .imagen{width:80px;
+                height:80px;}
                 *{
                     padding: 0px;
                     margin: 0px;
@@ -259,7 +260,9 @@ class DocumentoController extends Controller
     }
     public function repprestamo(Request $request){
         $i=0;
-        $doc= DB::SELECT("SELECT d.detalle,u.name,p.observacion,p.fechaprestamo,p.fechadevolucion FROM documentos d inner join prestamos p on d.id=p.documento_id inner join users u on p.user_id=u.id;");
+        $doc= DB::SELECT("SELECT d.detalle,u.name,p.observacion,p.fechaprestamo,p.fechadevolucion
+        FROM documentos d inner join prestamos p on d.id=p.documento_id inner join users u on p.user_id=u.id
+        where date(p.fechaprestamo) >= $request->fecha1 and date (p.fechaprestamo)<=$request->fecha2");
         $total=sizeof($doc);
         $cadena="<html>
         <style>
@@ -275,8 +278,8 @@ class DocumentoController extends Controller
             .subt{
                 font-weight: bold;
             }
-            .imagen{width:100px;
-                height:100px;}
+            .imagen{width:80px;
+                height:80px;}
                 *{
                     padding: 0px;
                     margin: 0px;
@@ -305,5 +308,5 @@ class DocumentoController extends Controller
         $cadena.="</tbody></table></body></html>";
         return $cadena;
     }
-    
+
 }
