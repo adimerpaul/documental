@@ -10,9 +10,7 @@
           <div class="col-4">
             <q-input outlined  type="date" label="Fecha inicio" v-model="fecha2"/>
           </div>
-          <div class="col-4 flex flex-center">
-            <q-btn label="Consultar" icon="history" color="primary" type="submit"/>
-          </div>
+
         </div>
       </q-form>
       <div class="row">
