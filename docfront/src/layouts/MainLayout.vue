@@ -131,6 +131,18 @@
             </q-item-section>
           </q-item>
 
+                    <q-item v-if="$store.getters['login/isLoggedIn']" clickable to="/impresion" exact>
+            <q-item-section avatar>
+              <q-icon name="print" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Impresion Reporte</q-item-label>
+              <q-item-label caption>
+                Reportes
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+
           <q-item v-if="$store.state.login.boolmissolicitudes" clickable to="/missolicitudes" exact>
             <q-item-section avatar>
               <q-icon name="calendar_today" />

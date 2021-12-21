@@ -160,7 +160,7 @@ class DocumentoController extends Controller
 
     public function reporte(Request $request){
         $i=0;
-        $doc= Documento::with('categoria')->with('subcategoria')->get();
+        $doc= Documento::whereDate('fecha','>=',$request->fecha1)->whereDate('fecha','<=',$request->fecha2)->with('categoria')->with('subcategoria')->get();
         $total=sizeof($doc);
         $cadena="<html>
         <style>
@@ -176,8 +176,8 @@ class DocumentoController extends Controller
             .subt{
                 font-weight: bold;
             }
-            .imagen{width:100px;
-                height:100px;}
+            .imagen{width:80px;
+                height:80px;}
                 *{
                     padding: 0px;
                     margin: 0px;
