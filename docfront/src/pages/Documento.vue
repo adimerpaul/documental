@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-btn label="Nueva Documento" color="positive" @click="alert = true" icon="add_circle" class="q-mb-xs" />
+    <q-btn label="Nuevo Documento" color="positive" @click="alert = true" icon="add_circle" class="q-mb-xs" />
 
     <q-dialog v-model="alert" >
       <q-card style="width: 700px; max-width: 80vw;">

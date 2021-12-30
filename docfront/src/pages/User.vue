@@ -46,15 +46,6 @@
                   :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"
                 />
 
-                  <q-input
-                    filled
-                    v-model="dato.carnet"
-                    type="text"
-                    label="Carnet identidad"
-                    hint="Carnet identidad"
-                    lazy-rules
-                    :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"
-                  />
 
 <!--                <q-select-->
 <!--                  filled-->
@@ -284,41 +275,6 @@
               lazy-rules
               :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"
             />
-            <q-input
-              filled
-              v-model="dato2.carnet"
-              type="text"
-              label="Carnet"
-              hint="Carnet de identidad"
-              lazy-rules
-              :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"
-            />
-            <q-select
-              filled
-              v-model="dato2.unit"
-              label="Unidad"
-              :options="units"
-              hint="Selecionar unidad"
-              option-label="nombre"
-            />
-            <!--            <q-input-->
-            <!--              filled-->
-            <!--              v-model="dato2.celular"-->
-            <!--              type="text"-->
-            <!--              label="Celular"-->
-            <!--              hint="Celular"-->
-            <!--              lazy-rules-->
-            <!--              :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"-->
-            <!--            />-->
-            <!--            <pre>{{dato2}}</pre>-->
-            <!--            <q-select-->
-            <!--              filled-->
-            <!--              label="Unidad"-->
-            <!--              v-model="dato2.unid_id"-->
-            <!--              :options="unidades"-->
-            <!--              option-label="nombre"-->
-            <!--              option-value="id"-->
-            <!--            />-->
 
             <q-input
               filled
@@ -326,12 +282,7 @@
               type="date"
               v-model="dato2.fechalimite"
             />
-            <q-select
-              filled
-              label="Tipo usuario"
-              v-model="dato2.tipo"
-              :options="['USUARIO','SECRETARIA']"
-            />
+
             <div>
               <q-btn label="Modificar" type="submit" color="positive" icon="add_circle" />
               <q-btn label="Cancelar" icon="delete" color="negative" v-close-popup />
@@ -526,28 +477,11 @@ export default {
       })
     },
     onMod() {
-      if (this.dato2.unit=='' || this.dato2.unit==undefined){
-        this.$q.notify({
-          message:'Debeser seleccionar unidad',
-          color:'red',
-          icon:'error'
-        })
-        return false
-      }
 
       this.$q.loading.show();
-      this.$axios.put(process.env.API + "/user/" + this.dato2.id, {
-        name:this.dato2.name,
-        // password:this.dato2.password,
-        // name:this.dato2.name,
-        email:this.dato2.email,
-        carnet:this.dato2.carnet,
-        unit_id:this.dato2.unit.id,
-        celular:this.dato2.celular,
-        tipo:this.dato2.tipo,
-        fechalimite:this.dato2.fechalimite,
-        // codigo:this.dato2.codigo,
-      }).then((res) => {
+      this.$axios.put(process.env.API + "/user/" + this.dato2.id, this.dato2
+
+      ).then((res) => {
         // console.log(res.daa)
         this.$q.notify({
           color: "green-4",

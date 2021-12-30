@@ -15,7 +15,7 @@
             <q-input
               filled
               v-model="dato.codigo"
-              type="text"
+              type="number"
               label="Codigo"
               hint="Ingresar Codigo"
               lazy-rules
@@ -95,7 +95,7 @@
             <q-input
               filled
               v-model="dato2.codigo"
-              type="text"
+              type="number"
               label="Codigo"
               hint="Ingresar Codigo"
               lazy-rules
@@ -351,6 +351,7 @@ export default {
           message: 'Creado correctamente'
         });
         this.alert=false;
+        this.dato={};
         this.misdatos();
       })
     },

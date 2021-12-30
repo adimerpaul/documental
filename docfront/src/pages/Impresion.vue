@@ -47,7 +47,7 @@ export default defineComponent({
 
       consultar(){
       this.$axios.post(process.env.API+'/reporte',{fecha1:this.fecha1,fecha2:this.fecha2}).then(res=>{
-        let myWindow = window.open("", "Imprimir", "width=200,height=100");
+        let myWindow = window.open("", "Imprimir", "width=1000,height=1000");
         myWindow.document.write(res.data);
         myWindow.document.close();
         myWindow.focus();
@@ -60,7 +60,7 @@ export default defineComponent({
 
     consultar2(){
       this.$axios.post(process.env.API+'/repcategoria',{fecha1:this.fecha1,fecha2:this.fecha2}).then(res=>{
-        let myWindow = window.open("", "Imprimir", "width=200,height=100");
+        let myWindow = window.open("", "Imprimir", "width=1000,height=1000");
         myWindow.document.write(res.data);
         myWindow.document.close();
         myWindow.focus();
@@ -72,7 +72,7 @@ export default defineComponent({
     },
         consultar3(){
       this.$axios.post(process.env.API+'/repprestamo',{fecha1:this.fecha1,fecha2:this.fecha2}).then(res=>{
-        let myWindow = window.open("", "Imprimir", "width=200,height=100");
+        let myWindow = window.open("", "Imprimir", "width=1000,height=1000");
         myWindow.document.write(res.data);
         myWindow.document.close();
         myWindow.focus();

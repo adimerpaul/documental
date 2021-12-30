@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -92,7 +93,9 @@ class UserController extends Controller
         ]);
         return $user;
     }
-    public function destroy(User $user){
+    public function destroy($id)
+    {   DB::table('permiso_user')->where('user_id',$id)->delete();
+        $user=User::find($id);
         $user->delete();
     }
     public function logout(Request $request){
