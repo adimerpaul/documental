@@ -211,7 +211,7 @@ class DocumentoController extends Controller
         $i=0;
         $doc= DB::SELECT("SELECT count(*) as cantidad,c.nombre as categ,s.nombre as subcat
         FROM documentos d inner join categorias c on d.categoria_id=c.id inner JOIN subcategorias s on d.subcategoria_id=s.id
-        where date(d.fecha) >= $request->fecha1 and date (d.fecha)<=$request->fecha2
+        where date(d.fecha) >= '$request->fecha1' and date(d.fecha)<='$request->fecha2'
         GROUP by c.nombre,s.nombre");
         $total=sizeof($doc);
         $cadena="<html>
@@ -253,7 +253,7 @@ class DocumentoController extends Controller
         <tbody>";
         foreach ($doc as $row) {
             $i++;
-            $cadena.="<tr><td>$i</td><td>".$row->categ."</td><td>".$row->subcateg."</td><td>$row->cantidad</td></tr>";
+            $cadena.="<tr><td>$i</td><td>".$row->categ."</td><td>".$row->subcat."</td><td>$row->cantidad</td></tr>";
         }
         $cadena.="</tbody></table></body></html>";
         return $cadena;
@@ -262,7 +262,7 @@ class DocumentoController extends Controller
         $i=0;
         $doc= DB::SELECT("SELECT d.detalle,u.name,p.observacion,p.fechaprestamo,p.fechadevolucion
         FROM documentos d inner join prestamos p on d.id=p.documento_id inner join users u on p.user_id=u.id
-        where date(p.fechaprestamo) >= $request->fecha1 and date (p.fechaprestamo)<=$request->fecha2");
+        where p.estado!='RECHAZADO' and date(p.fechaprestamo)>= '$request->fecha1' and date(p.fechaprestamo)<='$request->fecha2'");
         $total=sizeof($doc);
         $cadena="<html>
         <style>
@@ -288,18 +288,17 @@ class DocumentoController extends Controller
 
         <body>
         <table>
-        <tr><td><img class='imagen' src='img/estado.png'></td><td class='titulo'>AUTORIDAD PLURINACIONAL DE LA  MADRE TIERRA <br> PRESTAMOS DE ARCHIVO DE GESTION</td><td ><img class='imagen' src='img/fondo.jpg'></td></tr>
+        <tr><td><img class='imagen' src='img/estado.png'></td><td class='titulo'>AUTORIDAD PLURINACIONAL DE LA  MADRE TIERRA <br> PRESTAMOS DE ARCHIVO DE GESTION</td><td><img class='imagen' src='img/fondo.jpg'></td></tr>
         </table>
         <table>
-        <tr><td colspan=2>1. AREA DE DATOS GENERALES</td></tr>
+        <tr><td colspan=2>1. AREA DE DATOS GENERALES </td></tr>
         <tr><td>FECHA DE REPORTE</td><td>".date('Y-m-d')."</td></tr>
         <tr><td>TOTAL </td><td>".$total."</td></tr>
-        <tr></tr>
-        <tr><td colspan=2>2. AREA DE DESCRIPCION DE ARCHIVOS</td></tr>
-
+        <tr><td colspan=2>2. AREA DE DESCRIPCION DE ARCHIVOS </td></tr>
+        <hr>
         </table>
         <table>
-        <thead><tr><th>Nº</th><th>DOCUMENTO</th><th>SOLICITANTE</th><th>OBSERVACION</th><th>FEC PRESTAMO</th><<th>FEC DEVOLUCION</th></tr></thead>
+        <thead><tr><th>Nº</th><th>DOCUMENTO</th><th>SOLICITANTE</th><th>OBSERVACION</th><th>FEC PRESTAMO</th><th>FEC DEVOLUCION</th></tr></thead>
         <tbody>";
         foreach ($doc as $row) {
             $i++;
