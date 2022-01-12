@@ -339,8 +339,22 @@ export default {
 
 
     onSubmit () {
-
-        this.dato.fecha=date.formatDate(Date.now(),'YYYY-MM-DD');
+      let validar=false;
+      this.dato.fecha=date.formatDate(Date.now(),'YYYY-MM-DD');
+      this.data.forEach(element => {
+        if(element.codigo==this.dato.codigo)
+         validar=true;  
+        
+      });
+      if(validar){
+                this.$q.notify({
+          color: 'red-4',
+          textColor: 'white',
+          icon: 'info',
+          message: 'Codigo Categoria Registrado'
+        });
+        return false;
+      }
       this.$q.loading.show();
 
       this.$axios.post(process.env.API+'/categoria', this.dato).then(res=>{

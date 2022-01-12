@@ -128,7 +128,7 @@ export default {
     },
     misdatos(){
       this.$q.loading.show();
-      this.$axios.get(process.env.API+'/prestamo').then(res=>{
+      this.$axios.post(process.env.API+'/misprestamo').then(res=>{
         this.data=res.data;
         console.log(this.data)
         this.$q.loading.hide();

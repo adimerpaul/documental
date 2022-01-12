@@ -26,6 +26,14 @@ class PrestamoController extends Controller
             ->get();
     }
 
+    public function misprestamo(Request $request){
+        return Prestamo::
+        with('user')
+    ->with('documento')
+    ->where('user_id',$request->user()->id)
+    ->get();
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -45,6 +53,8 @@ class PrestamoController extends Controller
     public function store(Request $request)
     {
 //        return $request;
+        $validar=Prestamo::where('user_id',$request->user()->id)->where('estado',"SOLICITADO")->where('documento_id',$request->documento_id)->get();
+        if(sizeof($validar)==0){
         $prestamo=new Prestamo();
         $prestamo->fechaprestamo=now();
         $prestamo->fechadevolucion=null;
@@ -52,7 +62,7 @@ class PrestamoController extends Controller
         $prestamo->estado="SOLICITADO";
         $prestamo->user_id=$request->user()->id;
         $prestamo->documento_id=$request->documento_id;
-        $prestamo->save();
+        $prestamo->save();}
     }
 
     /**

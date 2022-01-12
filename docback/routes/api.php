@@ -46,6 +46,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::resource('/subcategoria',\App\Http\Controllers\SubcategoriaController::class);
     Route::resource('/documento',\App\Http\Controllers\DocumentoController::class);
     Route::resource('/prestamo',\App\Http\Controllers\PrestamoController::class);
+    Route::post('/misprestamo',[\App\Http\Controllers\PrestamoController::class,'misprestamo']);
     //Route::post('/upload',[\App\Http\Controllers\MailController::class,'upload']);
     Route::post('/uparchivo',[\App\Http\Controllers\DocumentoController::class,'uparchivo']);
     Route::post('/consulta',[\App\Http\Controllers\DocumentoController::class,'consulta']);

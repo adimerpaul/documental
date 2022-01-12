@@ -102,6 +102,8 @@ export default {
       })
     },
     aceptar(d){
+      console.log(d)
+
       this.$q.loading.show();
       // d.estado='ACEPTADO'
       // d.observacion=''
@@ -113,6 +115,14 @@ export default {
           color:'green',
           icon:'done'
         })
+        let myWindow = window.open("", "Imprimir", "width=1000,height=1000");
+        myWindow.document.write("<table><tr><td><table><tr><td colspan=2>SOLICITUD DOCUMENTO</td></tr><tr><td>Nombre</td><td>"+d.user.name+"</td></tr><tr><td>Archivo:</td><td>"+d.documento.archivo+"</td></tr><tr><td>Fecha:</td><td>"+d.fechaprestamo+"</td></tr></table></td><td><table><td colspan=2>SOLICITUD DOCUMENTO</td></tr><tr><td>Nombre</td><td>"+d.user.name+"</td></tr><tr><td>Archivo:</td><td>"+d.documento.archivo+"</td></tr><tr><td>Fecha:</td><td>"+d.fechaprestamo+"</td></tr></table></td></tr></table>");
+        myWindow.document.close();
+        myWindow.focus();
+        setTimeout(function(){
+          myWindow.print();
+          myWindow.close();
+        },500);
         this.misdatos()
       }).catch(error=>{
         this.$q.loading.hide();
