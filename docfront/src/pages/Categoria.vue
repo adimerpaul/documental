@@ -389,6 +389,23 @@ export default {
     },
 
     onMod(){
+            let validar=false;
+      this.data.forEach(element => {
+        if(element.id!=this.dato2.id)
+        if(element.codigo==this.dato2.codigo ){
+          validar=true
+         }
+        
+      });
+      if(validar){
+                this.$q.notify({
+          color: 'red-4',
+          textColor: 'white',
+          icon: 'info',
+          message: 'Codigo Categoria Registrado'
+        });
+        return false;
+      }
         this.$q.loading.show();
         this.$axios.put(process.env.API+'/categoria/'+this.dato2.id,this.dato2).then(res=>{
          this.$q.notify({

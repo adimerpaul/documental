@@ -9,6 +9,7 @@ class Documento extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'cod',
         'fondo',
         'archivo',
         'gestion',

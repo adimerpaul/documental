@@ -16,6 +16,17 @@
             <q-select dense outlined v-model="categoria" :options="cat" label="Categoria" @update:model-value="cargarsubcat"/>
             <q-select dense outlined v-model="subcategoria" :options="subcat" label="SubCategoria" required/>
             <div class="row">
+           <div class="col-6">
+            <q-input
+              outlined
+              dense
+              v-model="dato.cod"
+              type="number"
+              label="Codigo"
+              lazy-rules
+              :rules="[ val => val && val > 0 || 'Por favor ingresa codigo']"
+            />
+              </div>
               <div class="col-6">
             <q-input
               outlined
@@ -143,7 +154,20 @@
             <q-select dense outlined v-model="categoria" :options="cat" label="Categoria" @update:model-value="cargarsubcat"/>
             <q-select dense outlined v-model="subcategoria" :options="subcat" label="SubCategoria" required/>
             <div class="row">
+                          <div class="col-6">
+              
+            <q-input
+              outlined
+              dense
+              v-model="dato2.cod"
+              type="number"
+              label="Codigo"
+              lazy-rules
+              :rules="[ val => val && val > 0 || 'Por favor ingresa codigo']"
+            />
+              </div>
               <div class="col-6">
+              
             <q-input
               outlined
               dense
@@ -282,7 +306,7 @@ export default {
       categoria:{},
       subcategoria:{},
       columns: [
-        // {name: 'fondo', label: 'Fondo', align: 'left', field: row=>row.fondo, sortable: true},
+        {name: 'cod', label: 'Codigo', align: 'left', field: 'cod', sortable: true},
         {name: 'archivo', label: 'Archivo', align: 'left', field: 'archivo', sortable: true},
         // { name: 'gestion', align: 'center', label: 'Gestion', field: 'gestion', sortable: true },
         // { name: 'tomo', align: 'center', label: 'tomo', field: 'tomo', sortable: true },
@@ -391,6 +415,21 @@ export default {
 
     },
     onSubmit () {
+      let val=false;
+      this.data.forEach(element => {
+        
+        if(element.cod==this.dato.cod)
+        val=true;
+      });
+      if(val){
+                this.$q.notify({
+          color: 'red-4',
+          textColor: 'white',
+          icon: 'info',
+          message: 'Codigo Existente'
+        });
+        return false;
+      }
 
       this.dato.archivo=this.dato.fondo+'-'+this.categoria.value.sigla+'-'+this.subcategoria.value.sigla+'-'+this.dato.gestion+'-'+this.dato.tomo+'-'+this.dato.numtotal+'-'+this.dato.detalle;
       this.dato.categoria_id=this.categoria.value.id;
@@ -422,6 +461,21 @@ export default {
     },
 
     onMod(){
+              let val=false;
+      this.data.forEach(element => {
+        if(element.id!=this.dato2.id)
+        if(element.cod==this.dato2.cod)
+        val=true;
+      });
+      if(val){
+                this.$q.notify({
+          color: 'red-4',
+          textColor: 'white',
+          icon: 'info',
+          message: 'Codigo Existente'
+        });
+        return false;
+      }
         this.dato2.archivo=this.dato2.fondo+'-'+this.categoria.value.sigla+'-'+this.subcategoria.value.sigla+'-'+this.dato2.gestion+'-'+this.dato2.tomo+'-'+this.dato2.numtotal+'-'+this.dato2.detalle;
         this.dato2.categoria_id=this.categoria.value.id;
         this.dato2.subcategoria_id=this.subcategoria.value.id;

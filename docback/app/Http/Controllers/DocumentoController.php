@@ -52,6 +52,7 @@ class DocumentoController extends Controller
 //            $request->imagen=$nombreArchivo;
         }
         $doc=new Documento;
+        $doc->cod=$request->cod;
         $doc->fondo=$request->fondo;
         $doc->archivo=$nombreArchivo;
         $doc->gestion=$request->gestion;
@@ -115,6 +116,7 @@ class DocumentoController extends Controller
     {
 
         $doc=Documento::find($request->id);
+        $doc->cod=$request->cod;
         $doc->fondo=$request->fondo;
         $doc->gestion=$request->gestion;
         $doc->tomo=$request->tomo;
