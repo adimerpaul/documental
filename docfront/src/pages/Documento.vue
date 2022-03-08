@@ -447,6 +447,7 @@ export default {
       data.append('tomo', this.dato.tomo);
       data.append('numtotal', this.dato.numtotal);
       data.append('detalle', this.dato.detalle);
+      data.append('cod', this.dato.cod);
 
       this.$axios.post(process.env.API+'/documento', data).then(res=>{
         this.$q.notify({
